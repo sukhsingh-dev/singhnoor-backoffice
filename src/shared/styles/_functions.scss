@@ -1,0 +1,83 @@
+@use "sass:math";
+
+$breakpoints: (
+  x-small: 375px,
+  small: 480px,
+  medium: 750px,
+  large: 1024px,
+  x-large: 1200px,
+  xx-large: 1440px
+);
+
+@mixin onMinSize($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Unknown breakpoint #{$breakpoint}.";
+  }
+}
+
+@mixin onMaxSize($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: (map-get($breakpoints, $breakpoint) - 1)) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Unknown breakpoint #{$breakpoint}.";
+  }
+}
+
+@mixin onSizeRange($minBreakpoint, $maxBreakpoint) {
+  @if map-has-key($breakpoints, $minBreakpoint) and map-has-key($breakpoints, $maxBreakpoint) {
+    $minValue: map-get($breakpoints, $minBreakpoint);
+    // Subtract 1px from the maxBreakpoint value to ensure the range does not overlap
+    $maxValue: map-get($breakpoints, $maxBreakpoint) - 1px;
+
+    // Ensure the min value is less than the max value
+    @if $minValue < $maxValue {
+      @media (min-width: $minValue) and (max-width: $maxValue) {
+        @content;
+      }
+    }
+
+    @else {
+      @error "Minimum breakpoint (#{$minBreakpoint}: #{$minValue}) must be smaller than maximum breakpoint (#{$maxBreakpoint}: #{$maxValue}).";
+    }
+  }
+
+  @else {
+    @if not map-has-key($breakpoints, $minBreakpoint) {
+      @error "Unknown minimum breakpoint #{$minBreakpoint}.";
+    }
+  }
+
+  @if not map-has-key($breakpoints, $maxBreakpoint) {
+    @error "Unknown maximum breakpoint #{$maxBreakpoint}.";
+  }
+}
+
+@function rem($pixels) {
+  @return (math.div($pixels, 16)) * 1rem;
+}
+
+@mixin hide-input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+$header-height-size: 64;
+
+$primary-color: #007BFF;
+$secondary-color: #FA6B38;
+$primary-shadow: rgba($primary-color, 0.3);
+$secondary-shadow: rgba($secondary-color, 0.3);
+$container-x-large: calc(100% - rem(48));
+$container-xx-large: rem(1400);
