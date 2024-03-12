@@ -5,7 +5,7 @@
   cursor: pointer;
   letter-spacing: 0.5px;
   font-weight: 700;
-  border-radius: rem(40);
+  border-radius: rem(4);
   padding: rem(12) rem(28);
 
   @include onMinSize(x-large) {

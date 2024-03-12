@@ -2,6 +2,16 @@
 @import './preset';
 @import './buttons';
 
+body {
+  --geist-background: #000;
+  --accents-1: #111;
+  min-height: 100vh;
+  background-image:
+    linear-gradient(180deg, var(--geist-background) 30%,
+      var(--accents-1) 50%, var(--accents-1) 100%);
+  color: #d1d1d1;
+}
+
 h1 {
-  color: var(--primary)
+  color: #d1d1d1
 }
