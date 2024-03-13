@@ -28,7 +28,7 @@
 .dashboard-layout {
   display: grid;
   grid-template-areas: "side nav" "side main";
-  grid-template-columns: rem(360) auto;
+  grid-template-columns: rem(300) auto;
 
   .sn-aside {
     grid-area: side;
@@ -77,11 +77,50 @@
     }
   }
 
-  nav {
+  .sn-nav {
     grid-area: nav;
+    padding: rem(16) rem(24);
+    background-color: rgba(#fff, 0.1);
+    display: flex;
+    gap: rem(24);
+    font-size: rem(14);
+
+    time {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(16);
+      font-weight: 400;
+    }
+
+    .change-theme {
+      margin-left: auto;
+    }
+
+    &-user {
+      display: flex;
+      align-items: center;
+
+      img {
+        border-radius: 50%;
+        margin-right: rem(8);
+      }
+
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .user-email {
+        font-size: rem(12);
+        font-weight: 200;
+        color: rgba(#fff, 0.5);
+        margin-top: rem(4);
+      }
+    }
   }
 
   main {
-    grid-area: main;
+    height: calc(100vh - rem(72));
+    overflow: auto;
   }
 }

@@ -1,3 +1,4 @@
+import NavBar from "@/shared/components/Navbar"
 import Sidebar from "@/shared/components/Sidebar"
 
 export default function DashboardLayout({
@@ -7,7 +8,7 @@ export default function DashboardLayout({
 }) {
   return (
     <section className="page-bg dashboard-layout">
-      <nav>Navbar Top</nav>
+      <NavBar />
       <Sidebar />
       {children}
     </section>
