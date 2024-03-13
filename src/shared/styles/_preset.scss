@@ -89,30 +89,24 @@ ul {
 }
 
 body {
+  background-size: cover;
+  background-image: url('/images/bg2.webp');
+  background-position: bottom;
+  position: relative;
+  color: var(--white);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(#000, 0.75);
+    backdrop-filter: blur(3px);
+  }
+
   @include onMinSize(x-large) {
     &.overflow-hidden {
       padding-right: rem(10);
     }
-  }
-}
-
-section {
-  padding-block: rem(36);
-  max-width: 100vw;
-
-  &:not(.section-full-width) {
-    @include onMinSize(x-large) {
-      max-width: $container-x-large;
-      margin-inline: auto;
-    }
-
-    @include onMinSize(xx-large) {
-      max-width: $container-xx-large;
-    }
-  }
-
-  &.section-full-width {
-    padding-inline: rem(24);
   }
 }
 

@@ -20,16 +20,68 @@
 
 .page-bg {
   min-height: 100vh;
-  background-size: cover;
-  background-image: url('/images/bg2.webp');
-  background-position: bottom;
   position: relative;
+  z-index: 1;
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: rgba(#000, 0.75);
-    backdrop-filter: blur(3px);
+// dashboard layout
+.dashboard-layout {
+  display: grid;
+  grid-template-areas: "side nav" "side main";
+  grid-template-columns: rem(360) auto;
+
+  .sn-aside {
+    grid-area: side;
+    padding: rem(24);
+    background: rgba(#000, 0.6);
+    backdrop-filter: blur(6px);
+
+    &-list {
+      li {
+        margin-bottom: rem(16);
+
+        a,
+        .btn-link {
+          display: flex;
+          font-weight: 300;
+          gap: rem(16);
+          padding: rem(16);
+          font-size: rem(16);
+          border-radius: rem(4);
+          color: var(--white);
+          transition: background-color 0.3s var(--ease-spring);
+
+          &:hover {
+            background-color: rgba($primary-color, 0.15)
+          }
+        }
+
+        .btn-link {
+          width: 100%;
+        }
+
+        &.active {
+          a {
+            background-color: rgba($primary-color, 0.5);
+          }
+        }
+      }
+    }
+  }
+
+  .logo-outer {
+    img {
+      width: auto;
+      object-fit: contain;
+      margin-bottom: rem(40);
+    }
+  }
+
+  nav {
+    grid-area: nav;
+  }
+
+  main {
+    grid-area: main;
   }
 }
