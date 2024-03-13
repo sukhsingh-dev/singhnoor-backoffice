@@ -10,7 +10,7 @@
   padding: rem(12) rem(28);
 
   @include onMinSize(x-large) {
-    transition: background-color 0.3s ease-in-out;
+    transition: 0.3s var(--ease-spring);
     border: rem(2) solid transparent;
   }
 
@@ -21,7 +21,7 @@
 
     @include onMinSize(x-large) {
       &:hover {
-        background-color: var(--white);
+        background-color: transparent;
         border-color: var(--primary);
         color: var(--primary);
       }
