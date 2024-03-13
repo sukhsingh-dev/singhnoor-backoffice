@@ -1,15 +1,22 @@
+'use client'
+
 import Link from "next/link"
 import Icon from "./Icon"
 import Logout from "./Logout"
+import { useRouter } from "next/router"
+import { usePathname } from 'next/navigation'
 /* eslint-disable @next/next/no-img-element */
 const Sidebar = () => {
+  const pathname = usePathname()
+  console.log("path is", pathname)
+
   return (
     <aside className="sn-aside">
       <div className="logo-outer">
         <img src="/images/logo-long.png" alt="SN logo" className="img-invert" height={50} />
       </div>
       <ul className="sn-aside-list">
-        <li className="active">
+        <li className={pathname == "/dashboard" ? 'active' : ''}>
           <Link href="/dashboard">
             <Icon name="home" />
             Dashboard
@@ -21,8 +28,8 @@ const Sidebar = () => {
             Orders
           </Link>
         </li>
-        <li>
-          <Link href="/product">
+        <li className={(pathname == "/dashboard/products") || (pathname == "/dashboard/products/new") ? 'active' : ''}>
+          <Link href="/dashboard/products">
             <Icon name="product" />
             Products
           </Link>
