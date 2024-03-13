@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Gabarito } from "next/font/google";
 import { getServerSession } from "next-auth";
 import SessionProvider from "../shared/components/SessionProvider";
 
 import '../shared/styles/main.scss';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Gabarito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",

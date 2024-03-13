@@ -1,0 +1,35 @@
+.img-invert {
+  filter: invert(1);
+}
+
+.login-box {
+  max-width: rem(400);
+  margin-inline: auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: rem(60);
+  align-items: center;
+  background-color: rgba(#000, 0.3);
+  padding: rem(60);
+  border: 2px solid;
+  border-image: linear-gradient(45deg, var(--primary), var(--secondary)) 1;
+}
+
+.page-bg {
+  min-height: 100vh;
+  background-size: cover;
+  background-image: url('/images/bg2.webp');
+  background-position: bottom;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(#000, 0.75);
+    backdrop-filter: blur(3px);
+  }
+}
