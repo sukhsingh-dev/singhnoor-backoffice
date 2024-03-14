@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation'
 /* eslint-disable @next/next/no-img-element */
 const Sidebar = () => {
   const pathname = usePathname()
-  console.log("path is", pathname)
 
   return (
     <aside className="sn-aside">
