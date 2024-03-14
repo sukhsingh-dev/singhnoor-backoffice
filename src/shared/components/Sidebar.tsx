@@ -34,7 +34,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/categories">
+          <Link href="/dashboard/categories">
             <Icon name="categories" />
             Categories
           </Link>
