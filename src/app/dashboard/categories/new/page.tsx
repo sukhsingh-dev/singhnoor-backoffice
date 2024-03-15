@@ -3,6 +3,7 @@
 'use client'
 
 import Icon from "@/shared/components/Icon";
+import SnUploadButton from "@/shared/components/UploadButton";
 import axios from "axios";
 import { FormEvent, useState } from "react"
 
@@ -45,14 +46,11 @@ const NewCategoryPage = () => {
           <label className="sn-input-label-set sn-input-upload">
             <span>Category Image</span>
             <div className="upload-file">
-              <Icon name="upload" width={20} height={20} />
-              Upload Image
+              <Icon name="upload" />
+              <SnUploadButton imgInfo={setCategoryImg} />
             </div>
-            <input
-              type="file"
-              placeholder="Upload category image"
-            />
           </label>
+          {/* Select Attributes - Material, Size, Colors, Work */}
           <button className="btn btn-primary" type="submit" >Save</button>
         </form>
       </div>

@@ -182,7 +182,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: rem(8)
+  gap: rem(8);
+
+  label {
+    svg {
+      display: none;
+    }
+  }
 }
 
 .category {
