@@ -216,6 +216,10 @@
 
   &-img {
     z-index: 1;
+
+    img {
+      object-fit: contain;
+    }
   }
 }
 
@@ -232,5 +236,35 @@
     margin: 0 auto;
     position: relative;
     top: -10px;
+  }
+}
+
+.sn-multi-select {
+  width: 100%;
+
+  >div {
+    cursor: pointer;
+
+    >div {
+      border-radius: 0;
+      padding: rem(5) rem(6);
+
+      &:last-child {
+        color: #000;
+        cursor: pointer;
+      }
+    }
+  }
+
+  #react-select-category-attribute-placeholder {
+    color: rgb(117, 117, 117)
+  }
+
+  svg {
+    color: var(--text);
+
+    path {
+      fill: currentColor;
+    }
   }
 }

@@ -6,14 +6,28 @@ import Icon from "@/shared/components/Icon";
 import SnUploadButton from "@/shared/components/UploadButton";
 import axios from "axios";
 import { FormEvent, useState } from "react"
+import Select from 'react-select';
+
+const options = [
+  { value: 'size', label: 'Size' },
+  { value: 'colors', label: 'Colors' },
+  { value: 'material', label: 'Material' },
+  { value: 'work', label: 'Work' }
+];
 
 const NewCategoryPage = () => {
   const [categoryName, setCategoryName] = useState('');
   const [categoryBg, setCategoryBg] = useState('#208a65');
   const [categoryImg, setCategoryImg] = useState('');
+  const [categoryAttributes, setCategoryAttributes] = useState([]);
+
+  const handleSelectChange = (selectedOptions: any) => {
+    setCategoryAttributes(selectedOptions)
+  }
 
   const createCategory = async (ev: FormEvent) => {
     ev.preventDefault();
+    console.log(categoryAttributes)
     // const data = { title, description, price }
     // await axios.post('/api/products', data)
   }
@@ -33,6 +47,14 @@ const NewCategoryPage = () => {
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
           />
+          <div className="sn-multi-select">
+            <Select
+              isMulti
+              onChange={handleSelectChange}
+              options={options}
+              instanceId="category-attribute"
+            />
+          </div>
           <label className="sn-input-label-set sn-input-color">
             <span>Category Background</span>
             <div style={{ backgroundColor: categoryBg }} className="color-picker" />
@@ -50,7 +72,6 @@ const NewCategoryPage = () => {
               <SnUploadButton imgInfo={setCategoryImg} />
             </div>
           </label>
-          {/* Select Attributes - Material, Size, Colors, Work */}
           <button className="btn btn-primary" type="submit" >Save</button>
         </form>
       </div>
