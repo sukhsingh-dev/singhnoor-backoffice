@@ -20,6 +20,7 @@ const NewCategoryPage = () => {
   const [categoryBg, setCategoryBg] = useState('#208a65');
   const [categoryImg, setCategoryImg] = useState('');
   const [categoryAttributes, setCategoryAttributes] = useState([]);
+  const [categoryImgState, setCategoryImgState] = useState('');
 
   const handleSelectChange = (selectedOptions: any) => {
     setCategoryAttributes(selectedOptions)
@@ -69,7 +70,7 @@ const NewCategoryPage = () => {
             <span>Category Image</span>
             <div className="upload-file">
               <Icon name="upload" />
-              <SnUploadButton imgInfo={setCategoryImg} />
+              <SnUploadButton imgInfo={setCategoryImg} imgState={setCategoryImgState} />
             </div>
           </label>
           <button className="btn btn-primary" type="submit" >Save</button>
@@ -79,9 +80,12 @@ const NewCategoryPage = () => {
         <h2>Preview Area</h2>
         <div className="preview-container" >
           <div className="category-img">
-            {categoryImg ?
+            {categoryImg && categoryImgState === 'complete' ?
               <img src={categoryImg} alt="" width={175} height={175} />
               : ''
+            }
+            {
+              categoryImgState === 'begin' ? 'Image Loading...' : ''
             }
           </div>
           {

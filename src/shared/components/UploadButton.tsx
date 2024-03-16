@@ -5,18 +5,20 @@ import { UploadButton } from "../../utils/uploadthing";
 type imgInfoFunc = (info: string) => void
 
 interface UploadBtnType {
-  imgInfo: imgInfoFunc
+  imgInfo: imgInfoFunc,
+  imgState: (info: string) => void
 }
 
-export default function SnUploadButton({ imgInfo }: UploadBtnType) {
+export default function SnUploadButton({ imgInfo, imgState }: UploadBtnType) {
   return (
     <UploadButton
       endpoint="imageUploader"
+      onUploadBegin={() => imgState("begin")}
       onClientUploadComplete={(res) => {
-        // Do something with the response
-        console.log("Files: ", res);
+        // console.log("Files: ", res);
         // alert("Upload Completed");
         imgInfo(res[0].url)
+        imgState("complete")
       }}
       onUploadError={(error: Error) => {
         // Do something with the error.
