@@ -20,6 +20,7 @@ const NewCategoryPage = () => {
   const [categoryBg, setCategoryBg] = useState('#208a65');
   const [categoryImg, setCategoryImg] = useState('');
   const [categoryAttributes, setCategoryAttributes] = useState([]);
+
   const [categoryImgState, setCategoryImgState] = useState('');
 
   const handleSelectChange = (selectedOptions: any) => {
@@ -28,9 +29,8 @@ const NewCategoryPage = () => {
 
   const createCategory = async (ev: FormEvent) => {
     ev.preventDefault();
-    console.log(categoryAttributes)
-    // const data = { title, description, price }
-    // await axios.post('/api/products', data)
+    const data = { categoryName, categoryBg, categoryImg, categoryAttributes }
+    await axios.post('/api/categories', data)
   }
 
   return (
