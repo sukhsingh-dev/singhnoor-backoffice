@@ -20,3 +20,11 @@ export async function GET(request: Request, { params }: any) {
 
 }
 
+export async function DELETE(request: Request, { params }: any) {
+    const { id } = params;
+    await mongooseConnect();
+
+    await Category.deleteOne({_id: id});
+    return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
+}
+
