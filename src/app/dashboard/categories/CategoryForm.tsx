@@ -29,6 +29,8 @@ const CategoryForm = ({ title, data }: FormType) => {
   const [categoryAttributes, setCategoryAttributes] = useState([]);
 
   const [categoryImgState, setCategoryImgState] = useState(data?.category.categoryImg ? 'complete' : '');
+
+  const defaultCategoryAttributes = data?.category.categoryAttributes ? data.category.categoryAttributes.map((attr: any) => options.find((option) => option.value === attr.value)) : [];
   const router = useRouter();
 
 
@@ -66,6 +68,7 @@ const CategoryForm = ({ title, data }: FormType) => {
               isMulti
               onChange={handleSelectChange}
               options={options}
+              defaultValue={defaultCategoryAttributes}
               instanceId="category-attribute"
             />
           </div>
