@@ -1,3 +1,12 @@
-export default function EditPage({ params }: { params: { id: string } }) {
-  return <div>Edit Category: {params.id}</div>
+import CategoryForm from "../../CategoryForm"
+
+export default async function EditPage({ params }: { params: { id: string } }) {
+  const res = await fetch(`${process.env.APP_URL}/api/categories/${params.id}`);
+  const data = await res.json()
+
+  return (
+    <main className="sn-form-main">
+      <CategoryForm title="Edit Category" data={data} />
+    </main>
+  )
 }
