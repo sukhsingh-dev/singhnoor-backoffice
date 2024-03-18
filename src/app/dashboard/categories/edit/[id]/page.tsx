@@ -6,7 +6,7 @@ export default async function EditPage({ params }: { params: { id: string } }) {
 
   return (
     <main className="sn-form-main">
-      <CategoryForm title="Edit Category" data={data} />
+      <CategoryForm title="Edit Category" formData={data} />
     </main>
   )
 }

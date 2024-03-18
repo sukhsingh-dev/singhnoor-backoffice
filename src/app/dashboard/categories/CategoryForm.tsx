@@ -18,19 +18,19 @@ const options = [
 
 interface FormType {
   title: string,
-  data?: any
+  formData?: any
 }
 
 
-const CategoryForm = ({ title, data }: FormType) => {
-  const [categoryName, setCategoryName] = useState(data?.category.categoryName || '');
-  const [categoryBg, setCategoryBg] = useState(data?.category.categoryBg || '#208a65');
-  const [categoryImg, setCategoryImg] = useState(data?.category.categoryImg || '');
-  const [categoryAttributes, setCategoryAttributes] = useState([]);
+const CategoryForm = ({ title, formData }: FormType) => {
+  const [categoryName, setCategoryName] = useState(formData?.category.categoryName || '');
+  const [categoryBg, setCategoryBg] = useState(formData?.category.categoryBg || '#208a65');
+  const [categoryImg, setCategoryImg] = useState(formData?.category.categoryImg || '');
+  const [categoryAttributes, setCategoryAttributes] = useState(formData?.category.categoryAttributes || []);
 
-  const [categoryImgState, setCategoryImgState] = useState(data?.category.categoryImg ? 'complete' : '');
+  const [categoryImgState, setCategoryImgState] = useState(formData?.category.categoryImg ? 'complete' : '');
 
-  const defaultCategoryAttributes = data?.category.categoryAttributes ? data.category.categoryAttributes.map((attr: any) => options.find((option) => option.value === attr.value)) : [];
+  const defaultCategoryAttributes = formData?.category.categoryAttributes ? formData.category.categoryAttributes.map((attr: any) => options.find((option) => option.value === attr.value)) : [];
   const router = useRouter();
 
 
@@ -38,13 +38,22 @@ const CategoryForm = ({ title, data }: FormType) => {
     setCategoryAttributes(selectedOptions)
   }
 
-  const createCategory = async (ev: FormEvent) => {
+  const saveCategory = async (ev: FormEvent) => {
     ev.preventDefault();
+    const categoryId = formData?.category?._id;
+
     const data = { categoryName, categoryBg, categoryImg, categoryAttributes }
-    const creation = await axios.post('/api/categories', data)
+    let creation;
+
+    if (categoryId) {
+      creation = await axios.put(`/api/categories/${categoryId}`, data)
+
+    } else {
+      creation = await axios.post('/api/categories', data)
+    }
 
     if (creation.status === 200) {
-      alert("Product Created");
+      alert("Product Saved");
       router.push('/dashboard/categories/')
     }
   }
@@ -54,7 +63,7 @@ const CategoryForm = ({ title, data }: FormType) => {
         <h1>{title}</h1>
         <form
           className="sn-form"
-          onSubmit={createCategory}
+          onSubmit={saveCategory}
         >
           <input
             type="text"

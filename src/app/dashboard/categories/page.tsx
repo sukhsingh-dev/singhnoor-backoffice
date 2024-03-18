@@ -3,7 +3,7 @@ import Link from "next/link"
 import DeleteItem from "@/shared/components/DeleteItem";
 
 const CategoriesPage = async () => {
-  const res = await fetch(`${process.env.APP_URL}/api/categories`, { next: { revalidate: 60 } });
+  const res = await fetch(`${process.env.APP_URL}/api/categories`, { next: { revalidate: 10 } });
   const data = await res.json()
 
   return (
