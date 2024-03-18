@@ -5,6 +5,7 @@
 import Icon from "@/shared/components/Icon";
 import SnUploadButton from "@/shared/components/UploadButton";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react"
 import Select from 'react-select';
 
@@ -22,6 +23,8 @@ const NewCategoryPage = () => {
   const [categoryAttributes, setCategoryAttributes] = useState([]);
 
   const [categoryImgState, setCategoryImgState] = useState('');
+  const router = useRouter();
+
 
   const handleSelectChange = (selectedOptions: any) => {
     setCategoryAttributes(selectedOptions)
@@ -30,7 +33,12 @@ const NewCategoryPage = () => {
   const createCategory = async (ev: FormEvent) => {
     ev.preventDefault();
     const data = { categoryName, categoryBg, categoryImg, categoryAttributes }
-    await axios.post('/api/categories', data)
+    const creation = await axios.post('/api/categories', data)
+
+    if (creation.status === 200) {
+      alert("Product Created");
+      router.push('/dashboard/categories/')
+    }
   }
 
   return (

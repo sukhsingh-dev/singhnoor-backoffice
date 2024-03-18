@@ -1,0 +1,14 @@
+Alert box
+Forms Validations
+API route saving
+
+
+code cleanup
+  - changing any to proper types
+
+Day Night theme
+Sidebar Collapse
+
+Links-------------
+https://tutorial101.blogspot.com/2024/01/nextjs-14-crud-create-read-update-and.html
+https://github.com/burakorkmez/snapchat-clone/tree/master

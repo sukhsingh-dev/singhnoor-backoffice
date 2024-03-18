@@ -42,7 +42,7 @@ const Sidebar = () => {
         <li>
           <Link href="/frontend">
             <Icon name="frontend" />
-            Frontend Offers
+            Frontend
           </Link>
         </li>
 

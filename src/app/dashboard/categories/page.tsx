@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link"
+import DeleteItem from "@/shared/components/DeleteItem";
 
 const CategoriesPage = async () => {
-  const res = await fetch(`${process.env.APP_URL}/api/categories`);
+  const res = await fetch(`${process.env.APP_URL}/api/categories`, { next: { revalidate: 600 } });
   const data = await res.json()
 
   return (
@@ -41,8 +42,8 @@ const CategoriesPage = async () => {
                     }
                   </td>
                   <td>
-                    <button className="btn-edit" >Edit</button>
-                    <button className="btn-delete" >Delete</button>
+                    <Link href={`/dashboard/categories/edit/${category._id}`} className="btn-link btn-edit" >Edit</Link>
+                    <DeleteItem id={category._id} />
                   </td>
                 </tr>
               )

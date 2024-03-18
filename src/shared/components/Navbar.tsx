@@ -19,7 +19,7 @@ const NavBar = () => {
         {todayDayName}, {todayDate} {todayMonth} {todayYear}
       </time>
       <button className="change-theme" ><Icon name="night" /></button>
-      <button><Icon name="bell" /></button>
+      {/* <button><Icon name="bell" /></button> */}
       <div className="sn-nav-user">
         <img src={session?.user?.image ? session.user.image : ""} alt="user" width={40} height={40} />
         <div className="user-info">

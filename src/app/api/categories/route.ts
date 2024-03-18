@@ -14,7 +14,7 @@ export const POST = async (req: Request) => {
       categoryName, categoryBg, categoryImg, categoryAttributes
     })
 
-    return new NextResponse(categoryDoc)
+    return new NextResponse(categoryDoc,{ status: 200 })
   }
 }
 
