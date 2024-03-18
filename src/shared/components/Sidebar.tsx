@@ -27,13 +27,13 @@ const Sidebar = () => {
             Orders
           </Link>
         </li>
-        <li className={(pathname == "/dashboard/products") || (pathname == "/dashboard/products/new") ? 'active' : ''}>
+        <li className={pathname.includes('/products') ? 'active' : ''}>
           <Link href="/dashboard/products">
             <Icon name="product" />
             Products
           </Link>
         </li>
-        <li>
+        <li className={pathname.includes('/categories') ? 'active' : ''}>
           <Link href="/dashboard/categories">
             <Icon name="categories" />
             Categories

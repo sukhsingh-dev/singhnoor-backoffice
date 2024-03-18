@@ -133,6 +133,13 @@
   }
 
   .sn-main-table {
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: rem(24);
+    }
+
     h2 {
       margin-block: rem(32)
     }
