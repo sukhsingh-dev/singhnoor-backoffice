@@ -34,7 +34,7 @@ const NewCategoryPage = () => {
   }
 
   return (
-    <main>
+    <main className="sn-form-main">
       <div className="form-area">
         <h1>Add New Category</h1>
         <form

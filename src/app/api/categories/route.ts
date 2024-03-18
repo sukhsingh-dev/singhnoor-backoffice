@@ -6,7 +6,7 @@ export const POST = async (req: Request) => {
   const {method} = req;
   
   await mongooseConnect();
-  
+
   if(method == "POST") {
     const {categoryName, categoryBg, categoryImg, categoryAttributes} = await req.json()
 
@@ -16,4 +16,15 @@ export const POST = async (req: Request) => {
 
     return new NextResponse(categoryDoc)
   }
+}
+
+export const GET = async () => {
+  try {
+		await mongooseConnect();
+		const data = await Category.find();
+		return NextResponse.json(data);
+	} catch (error) {
+		console.log("Error in Category route handler", error);
+		throw error;
+	}
 }

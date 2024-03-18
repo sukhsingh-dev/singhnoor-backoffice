@@ -84,6 +84,7 @@
     display: flex;
     gap: rem(24);
     font-size: rem(14);
+    height: $nav-size;
 
     time {
       display: inline-flex;
@@ -120,13 +121,62 @@
   }
 
   main {
-    height: calc(100vh - rem(72));
+    height: calc(100vh - $nav-size);
     overflow: auto;
     padding: rem(24) rem(40);
+  }
 
+  .sn-form-main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: rem(48)
+  }
+
+  .sn-main-table {
+    h2 {
+      margin-block: rem(32)
+    }
+
+    table {
+      background-color: var(--white);
+      color: var(--text);
+      border-collapse: collapse;
+      width: 100%;
+
+      th,
+      td {
+        padding: rem(8);
+        border: rem(1) solid var(--border-light);
+        text-align: left;
+      }
+
+      .bg-span {
+        width: rem(20);
+        height: rem(20);
+        border-radius: 50%;
+        display: block;
+      }
+
+      .span-attribute {
+        margin-left: rem(8);
+        font-size: rem(14);
+      }
+
+      button {
+        color: var(--white);
+        padding: rem(4) rem(12);
+        font-size: rem(16);
+      }
+
+      .btn-edit {
+        background-color: var(--primary);
+        margin-right: rem(16);
+      }
+
+      .btn-delete {
+        background-color: var(--page-color-red-light);
+      }
+    }
   }
 }
 
