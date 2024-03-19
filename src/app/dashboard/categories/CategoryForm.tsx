@@ -81,6 +81,7 @@ const CategoryForm = ({ title, formData }: FormType) => {
               options={options}
               defaultValue={defaultCategoryAttributes}
               instanceId="category-attribute"
+              placeholder="Select Attributes"
             />
           </div>
           <label className="sn-input-label-set sn-input-color">

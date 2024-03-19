@@ -6,12 +6,11 @@ export const POST = async (req: Request) => {
   const {method} = req;
   
   await mongooseConnect();
-  
   if(method == "POST") {
-    const {title, description, price} = await req.json()
+    const {title, description, price, images, category, gender, additionalInfo, stock} = await req.json()
 
     const productDoc = await Product.create({
-      title, description, price
+      title, description, price, images, category, gender, additionalInfo, stock
     })
 
     return new NextResponse(productDoc)

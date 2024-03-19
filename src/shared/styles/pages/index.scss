@@ -332,3 +332,18 @@
     }
   }
 }
+
+// Product Form
+.dashboard-layout .sn-form-product {
+  grid-template-columns: 2fr 1fr;
+
+  .sn-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-width: 100%;
+  }
+
+  .btn {
+    width: fit-content;
+  }
+}
