@@ -144,6 +144,10 @@
       margin-block: rem(32)
     }
 
+    img {
+      object-fit: contain;
+    }
+
     table {
       background-color: var(--white);
       color: var(--text);

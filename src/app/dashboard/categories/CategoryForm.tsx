@@ -31,6 +31,8 @@ const CategoryForm = ({ title, formData }: FormType) => {
   const [categoryImgState, setCategoryImgState] = useState(formData?.category.categoryImg ? 'complete' : '');
 
   const defaultCategoryAttributes = formData?.category.categoryAttributes ? formData.category.categoryAttributes.map((attr: any) => options.find((option) => option.value === attr.value)) : [];
+  const currentImagePath = formData?.category.categoryImg;
+
   const router = useRouter();
 
 
@@ -46,7 +48,7 @@ const CategoryForm = ({ title, formData }: FormType) => {
     let creation;
 
     if (categoryId) {
-      creation = await axios.put(`/api/categories/${categoryId}`, data)
+      creation = await axios.put(`/api/categories/${categoryId}`, { ...data, currentImagePath })
 
     } else {
       creation = await axios.post('/api/categories', data)
