@@ -8,6 +8,7 @@ import Icon from "@/shared/components/Icon";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { ReactSortable } from "react-sortablejs";
+import AsyncSelect from 'react-select/async';
 
 const genderOptions = [
   { value: 'men', label: 'Men' },
@@ -80,6 +81,24 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productImageState, setProductImageState] = useState('');
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>([])
 
+  const getCategories = async () => {
+    const categoriesList = await axios.get('/api/categories')
+    return categoriesList
+  }
+
+  const categoriesOptions = (searchValue: string, callback: (options: Array<object>) => void) => {
+    const categoryList = getCategories();
+    let newList: Array<object> = []
+
+    categoryList.then((result) => {
+      result.data.map((item: any) => {
+        const option = { value: item._id, label: item.categoryName }
+        newList.push(option)
+      })
+      callback(newList)
+    })
+  }
+
   const updateImagesOrder = (images: Array<string>) => {
     setProductImagesArray(images)
   }
@@ -99,11 +118,12 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
           onSubmit={createProduct}
         >
           <div className="sn-multi-select">
-            <Select
+            <AsyncSelect
               // isMulti
               // onChange={handleSelectChange}
               // defaultValue={defaultCategoryAttributes}
-              options={genderOptions}
+              loadOptions={categoriesOptions}
+              defaultOptions
               instanceId="product-categories"
               placeholder="Select Category"
             />
