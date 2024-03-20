@@ -3,6 +3,8 @@ import GoogleProvider from 'next-auth/providers/google'
 // import { MongoDBAdapter } from "@auth/mongodb-adapter"
 // import clientPromise from '../../../../../lib/mongodb'
 
+const allowedAdmins = ['sukhjindersinghmca@gmail.com','singhnoor.web@gmail.com']
+
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -11,6 +13,15 @@ export const authOptions = {
     })
   ],
   // adapter: MongoDBAdapter(clientPromise),
+  callbacks: {
+    signIn(data : any) {
+      if (allowedAdmins.includes(data.user.email)) {
+        return true;
+      } else {
+        return false
+      }
+    }
+  }
 }
 
 export const handler = NextAuth(authOptions)
