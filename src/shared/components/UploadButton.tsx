@@ -6,10 +6,12 @@ type imgInfoFunc = (info: string) => void
 
 interface UploadBtnType {
   imgInfo: imgInfoFunc,
-  imgState: (info: string) => void
+  imgState: (info: string) => void,
+  imgArrayState?: Array<string>,
+  imgArraySet?: (arrayList: Array<string>) => void
 }
 
-export default function SnUploadButton({ imgInfo, imgState }: UploadBtnType) {
+export default function SnUploadButton({ imgInfo, imgState, imgArrayState, imgArraySet }: UploadBtnType) {
   return (
     <UploadButton
       endpoint="imageUploader"
@@ -17,7 +19,13 @@ export default function SnUploadButton({ imgInfo, imgState }: UploadBtnType) {
       onClientUploadComplete={(res) => {
         // console.log("Files: ", res);
         // alert("Upload Completed");
-        imgInfo(res[0].url)
+        if (imgArrayState && imgArraySet) {
+          let arrayList = imgArrayState;
+          arrayList.push(res[0].url);
+          imgArraySet(arrayList)
+        } else {
+          imgInfo(res[0].url)
+        }
         imgState("complete")
       }}
       onUploadError={(error: Error) => {

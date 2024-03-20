@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import { FormEvent, useState } from "react";
@@ -49,6 +50,11 @@ const leatherMaterialOption = [
   { value: 'softLeather', label: 'Soft Leather' }
 ]
 
+const tagOption = [
+  { value: 'nihang', label: 'Nihang' },
+  { value: 'Khalsa', label: 'Khalsa' },
+]
+
 interface FormType {
   formTitle: string,
   formData?: any
@@ -69,8 +75,9 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productStock, setProductStock] = useState(null);
 
 
-  const [productImages, setProductImages] = useState('');
-  const [productImagesState, setProductImagesState] = useState('');
+  const [productImage, setProductImage] = useState('');
+  const [productImageState, setProductImageState] = useState('');
+  const [productImagesArray, setProductImagesArray] = useState([''])
 
   const createProduct = async (ev: FormEvent) => {
     ev.preventDefault();
@@ -142,6 +149,17 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             onChange={(e) => setPrice(e.target.value)}
           />
           <div className="sn-multi-select">
+            <CreatableSelect
+              isMulti
+              isClearable
+              // onChange={handleSelectChange}
+              // defaultValue={defaultCategoryAttributes}
+              options={tagOption}
+              instanceId="product-tags"
+              placeholder="Add Tags"
+            />
+          </div>
+          <div className="sn-multi-select">
             <Select
               isMulti
               // onChange={handleSelectChange}
@@ -183,11 +201,31 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               placeholder="Select Colors"
             />
           </div>
+          <div className="product-images" >
+            {
+              productImagesArray.length > 1 &&
+              productImagesArray.map((imgName) => {
+                if (imgName != '') {
+                  return (
+                    <img src={imgName} alt="image" key={imgName} width={80} height={80} />
+                  )
+                }
+              })
+            }
+            {
+              productImageState === 'begin' ? 'Image Loading...' : ''
+            }
+          </div>
           <label className="sn-input-label-set sn-input-upload">
             <span>Product Image</span>
             <div className="upload-file">
               <Icon name="upload" />
-              <SnUploadButton imgInfo={setProductImages} imgState={setProductImagesState} />
+              <SnUploadButton
+                imgInfo={setProductImage}
+                imgState={setProductImageState}
+                imgArrayState={productImagesArray}
+                imgArraySet={setProductImagesArray}
+              />
             </div>
           </label>
           <button className="btn btn-primary" type="submit" >Save</button>
@@ -195,7 +233,13 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
       </div>
       <div className="preview area">
         <h2>Preview Area</h2>
-        <div className="preview-container" ></div>
+        <div className="preview-container" >
+          {
+            productImagesArray.length > 1 ?
+              <img src={productImagesArray[1]} alt="image" key={productImagesArray[1]} width={120} height={120} />
+              : ''
+          }
+        </div>
       </div>
     </>
   )

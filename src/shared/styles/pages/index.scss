@@ -346,4 +346,8 @@
   .btn {
     width: fit-content;
   }
+
+  .product-images {
+    grid-column: 1/3;
+  }
 }
