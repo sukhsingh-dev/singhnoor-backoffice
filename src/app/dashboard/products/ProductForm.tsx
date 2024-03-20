@@ -7,6 +7,7 @@ import SnUploadButton from "@/shared/components/UploadButton";
 import Icon from "@/shared/components/Icon";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { ReactSortable } from "react-sortablejs";
 
 const genderOptions = [
   { value: 'men', label: 'Men' },
@@ -77,7 +78,11 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
 
   const [productImage, setProductImage] = useState('');
   const [productImageState, setProductImageState] = useState('');
-  const [productImagesArray, setProductImagesArray] = useState([''])
+  const [productImagesArray, setProductImagesArray] = useState<Array<any>>([])
+
+  const updateImagesOrder = (images: Array<string>) => {
+    setProductImagesArray(images)
+  }
 
   const createProduct = async (ev: FormEvent) => {
     ev.preventDefault();
@@ -202,16 +207,18 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             />
           </div>
           <div className="product-images" >
-            {
-              productImagesArray.length > 1 &&
-              productImagesArray.map((imgName) => {
-                if (imgName != '') {
-                  return (
-                    <img src={imgName} alt="image" key={imgName} width={80} height={80} />
-                  )
-                }
-              })
-            }
+            <ReactSortable list={productImagesArray} setList={updateImagesOrder}>
+              {
+                productImagesArray.length &&
+                productImagesArray.map((imgName) => {
+                  if (imgName != '') {
+                    return (
+                      <img src={imgName} alt="image" key={imgName} width={80} height={80} />
+                    )
+                  }
+                })
+              }
+            </ReactSortable>
             {
               productImageState === 'begin' ? 'Image Loading...' : ''
             }
@@ -235,8 +242,8 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
         <h2>Preview Area</h2>
         <div className="preview-container" >
           {
-            productImagesArray.length > 1 ?
-              <img src={productImagesArray[1]} alt="image" key={productImagesArray[1]} width={120} height={120} />
+            productImagesArray.length ?
+              <img src={productImagesArray[0]} alt="image" key={productImagesArray[1]} width={120} height={120} />
               : ''
           }
         </div>
