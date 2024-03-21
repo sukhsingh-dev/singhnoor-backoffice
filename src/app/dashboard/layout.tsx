@@ -1,6 +1,6 @@
 import NavBar from "@/shared/components/Navbar"
 import Sidebar from "@/shared/components/Sidebar"
-import { getServerSession } from "next-auth";
+import { auth } from "@/auth"
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -8,7 +8,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession()
+  const session = await auth();
 
   if (!session || !session?.user) {
     redirect('/')

@@ -1,16 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-'use client'
-
 import Icon from "./Icon"
-import { useSession } from "next-auth/react";
+import { auth } from "@/auth"
 
-const NavBar = () => {
+const NavBar = async () => {
   const todayDayName = new Date().toLocaleDateString('en-US', { weekday: 'long' as const });
   const todayDate = new Date().toLocaleDateString('en-US', { day: 'numeric' });
   const todayMonth = new Date().toLocaleDateString('en-US', { month: 'short' });
   const todayYear = new Date().toLocaleDateString('en-US', { year: 'numeric' });
 
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
+  const session = await auth();
 
   return (
     <nav className="sn-nav">

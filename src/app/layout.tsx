@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Gabarito } from "next/font/google";
-import { getServerSession } from "next-auth";
-import SessionProvider from "../shared/components/SessionProvider";
+import { SessionProvider } from "next-auth/react"
+import { auth } from "@/auth"
 
 import '../shared/styles/main.scss';
 
@@ -17,7 +17,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await auth()
   return (
     <html lang="en">
       <body className={inter.className}>
