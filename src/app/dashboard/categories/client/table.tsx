@@ -1,24 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
 
-'use client'
 import Link from "next/link"
 import DeleteItem from "@/shared/components/DeleteItem";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import axios from "axios";
 
-const TableData = () => {
-  const [data, setData] = useState([])
-  useEffect(() => {
-    const getCategories = async () => {
-      const res = await axios.get('/api/categories');
-      return res;
-    }
+const TableData = async () => {
+  // const [data, setData] = useState([])
+  // useEffect(() => {
+  //   const getCategories = async () => {
+  //     const res = await axios.get('/api/categories');
+  //     return res;
+  //   }
 
-    getCategories().then((result) => {
-      const inside = result.data;
-      setData(inside)
-    })
-  }, [])
+  //   getCategories().then((result) => {
+  //     const inside = result.data;
+  //     setData(inside)
+  //   })
+  // }, [])
+
+  const res = await fetch(`${process.env.APP_URL}/api/categories`);
+  const data = await res.json()
 
   return (
     data.map((category: any, index: number) => {
@@ -44,6 +46,7 @@ const TableData = () => {
         </tr>
       )
     })
+    // < tr > <td>a</td></ >
   )
 }
 
