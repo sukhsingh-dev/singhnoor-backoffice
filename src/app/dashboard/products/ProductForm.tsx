@@ -67,20 +67,22 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   // States
   const [productTitle, setTitle] = useState('');
   const [productDescription, setDescription] = useState('');
-  const [productPrice, setProductPrice] = useState<number | undefined>();
+  const [productPrice, setProductPrice] = useState<number | string>('');
   const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
   const [productCategory, setProductCategory] = useState([]);
   const [productGender, setProductGender] = useState([]);
   const [productSize, setProductSize] = useState([]);
   const [productWork, setProductWork] = useState([]);
   const [productMaterial, setProductMaterial] = useState([]);
-  const [productInfo, setProductInfo] = useState('');
+  const [productColors, setProductColors] = useState([]);
   const [productStock, setProductStock] = useState('');
   const [productAdditional, setProductAdditional] = useState('');
   const [productImage, setProductImage] = useState('');
   const [productImageState, setProductImageState] = useState('');
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>([])
   const [productAttributes, setProductAttributes] = useState<Array<string>>([])
+  const [productTags, setProductTags] = useState([]);
+
   // Methods
   const getCategories = async () => {
     const categoriesList = await axios.get('/api/categories')
@@ -111,16 +113,50 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const handleGenderChange = (selectedOptions: any) => {
     setProductGender(selectedOptions)
   }
+  const handleTagsChange = (selectedOptions: any) => {
+    setProductTags(selectedOptions)
+  }
+  const handleSizeChange = (selectedOptions: any) => {
+    setProductSize(selectedOptions)
+  }
+  const handleMaterialChange = (selectedOptions: any) => {
+    setProductMaterial(selectedOptions)
+  }
+  const handleWorkChange = (selectedOptions: any) => {
+    setProductWork(selectedOptions)
+  }
+  const handleColorsChange = (selectedOptions: any) => {
+    setProductColors(selectedOptions)
+  }
+
+  const roundToNearestTen = (number: number) => {
+    return Math.round(number / 10) * 10;
+  };
 
   const handlePriceChange = (itemPrice: number) => {
-    setProductPrice((itemPrice))
-    setProductOldPrice(itemPrice + (itemPrice / 2.5))
+    setProductPrice(itemPrice > 0 ? itemPrice : '')
+    setProductOldPrice(roundToNearestTen(itemPrice + (itemPrice / 2.5)))
   }
 
   const createProduct = async (ev: FormEvent) => {
     ev.preventDefault();
-    // const data = { title, description, price }
-    // await axios.post('/api/products', data)
+    const data = {
+      productCategory,
+      productTitle,
+      productGender,
+      productPrice,
+      productDescription,
+      productAdditional,
+      productStock,
+      productTags,
+      productImagesArray,
+      productSize,
+      productMaterial,
+      productColors,
+      productWork
+    }
+    const creation = await axios.post('/api/products', data)
+    alert(creation)
   }
 
   return (
@@ -190,7 +226,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             <CreatableSelect
               isMulti
               isClearable
-              // onChange={handleSelectChange}
+              onChange={handleTagsChange}
               // defaultValue={defaultCategoryAttributes}
               options={tagOption}
               instanceId="product-tags"
@@ -202,7 +238,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               <div className="sn-multi-select">
                 <Select
                   isMulti
-                  // onChange={handleSelectChange}
+                  onChange={handleSizeChange}
                   // defaultValue={defaultCategoryAttributes}
                   options={sizeOptions}
                   instanceId="product-sizes"
@@ -216,7 +252,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               <div className="sn-multi-select">
                 <Select
                   isMulti
-                  // onChange={handleSelectChange}
+                  onChange={handleMaterialChange}
                   // defaultValue={defaultCategoryAttributes}
                   options={tshirtMaterialOptions}
                   instanceId="product-material"
@@ -230,7 +266,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               <div className="sn-multi-select">
                 <Select
                   isMulti
-                  // onChange={handleSelectChange}
+                  onChange={handleWorkChange}
                   // defaultValue={defaultCategoryAttributes}
                   options={workOptions}
                   instanceId="product-work"
@@ -245,7 +281,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
                 <CreatableSelect
                   isMulti
                   isClearable
-                  // onChange={handleSelectChange}
+                  onChange={handleColorsChange}
                   // defaultValue={defaultCategoryAttributes}
                   options={colorOptions}
                   instanceId="product-color"
