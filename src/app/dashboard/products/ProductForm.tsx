@@ -9,6 +9,7 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { ReactSortable } from "react-sortablejs";
 import AsyncSelect from 'react-select/async';
+import { redirect } from "next/navigation";
 
 const genderOptions = [
   { value: 'men', label: 'Men' },
@@ -69,7 +70,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productDescription, setDescription] = useState('');
   const [productPrice, setProductPrice] = useState<number | string>('');
   const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
-  const [productCategory, setProductCategory] = useState([]);
+  const [productCategory, setProductCategory] = useState('');
   const [productGender, setProductGender] = useState([]);
   const [productSize, setProductSize] = useState([]);
   const [productWork, setProductWork] = useState([]);
@@ -107,7 +108,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   }
 
   const handleCategoryChange = (selectedOptions: any) => {
-    setProductCategory(selectedOptions)
+    setProductCategory(selectedOptions.value)
     setProductAttributes(selectedOptions.attr.map((item: any) => item.value))
   }
   const handleGenderChange = (selectedOptions: any) => {
@@ -156,7 +157,11 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
       productWork
     }
     const creation = await axios.post('/api/products', data)
-    alert(creation)
+    alert("Product created")
+    if (creation.status === 200) {
+      redirect('/dashboard/products/')
+    }
+    // console.log(productCategory)
   }
 
   return (

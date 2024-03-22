@@ -1,14 +1,19 @@
 import mongoose, { model, Schema, models } from "mongoose";
 
 const ProductSchema = new Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  images: [{ type: String, required: true }],
-  category: {type:mongoose.Types.ObjectId, ref:'Category'},
-  gender: { type: Array, required: true },
-  additionalInfo: { type: String },
-  stock: { type: Number },
+  productCategory: {type:mongoose.Types.ObjectId, ref:'Category'},
+  productTitle: {type: String, required: true},
+  productGender: { type: Array, required: true },
+  productPrice: {type: Number, required: true},
+  productDescription: {type: String, required: true},
+  productAdditional: {type: String, required: true},
+  productImagesArray: [{ type: String, required: true }],
+  productStock: {type: Number},
+  productTags: { type: Array, required: true },
+  productSize: { type: Array, required: true },
+  productMaterial: { type: Array, required: true },
+  productColors: { type: Array, required: true },
+  productWork: { type: Array, required: true }
 });
 
 export const Product = models.Product || model('Product', ProductSchema); 
