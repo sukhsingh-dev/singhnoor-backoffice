@@ -66,16 +66,17 @@ interface FormType {
 const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productTitle, setTitle] = useState('');
   const [productDescription, setDescription] = useState('');
-  const [productPrice, setPrice] = useState('');
+  const [productPrice, setProductPrice] = useState<number | undefined>();
+  const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
 
-  const [productCategory, setProductCategory] = useState('');
+  const [productCategory, setProductCategory] = useState([]);
   const [productGender, setProductGender] = useState([]);
   const [productSize, setProductSize] = useState([]);
   const [productWork, setProductWork] = useState([]);
   const [productMaterial, setProductMaterial] = useState([]);
   const [productInfo, setProductInfo] = useState('');
-  const [productStock, setProductStock] = useState(null);
-
+  const [productStock, setProductStock] = useState('');
+  const [productAdditional, setProductAdditional] = useState('');
 
   const [productImage, setProductImage] = useState('');
   const [productImageState, setProductImageState] = useState('');
@@ -103,6 +104,15 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     setProductImagesArray(images)
   }
 
+  const handleCategoryChange = (selectedOptions: any) => {
+    setProductCategory(selectedOptions)
+  }
+
+  const handlePriceChange = (itemPrice: number) => {
+    setProductPrice((itemPrice))
+    setProductOldPrice(itemPrice + (itemPrice / 2.5))
+  }
+
   const createProduct = async (ev: FormEvent) => {
     ev.preventDefault();
     // const data = { title, description, price }
@@ -119,8 +129,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
         >
           <div className="sn-multi-select">
             <AsyncSelect
-              // isMulti
-              // onChange={handleSelectChange}
+              onChange={handleCategoryChange}
               // defaultValue={defaultCategoryAttributes}
               loadOptions={categoriesOptions}
               defaultOptions
@@ -152,7 +161,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             placeholder="Price"
             className="sn-input"
             value={productPrice}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => handlePriceChange(parseInt(e.target.value))}
           />
           <textarea
             placeholder="Product Description"
@@ -163,15 +172,15 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
           <textarea
             placeholder="Additional Information"
             className="sn-input sn-textarea"
-            value={productDescription}
-            onChange={(e) => setDescription(e.target.value)}
+            value={productAdditional}
+            onChange={(e) => setProductAdditional(e.target.value)}
           />
           <input
             type="number"
             placeholder="In Stock"
             className="sn-input"
-            value={productPrice}
-            onChange={(e) => setPrice(e.target.value)}
+            value={productStock}
+            onChange={(e) => setProductStock(e.target.value)}
           />
           <div className="sn-multi-select">
             <CreatableSelect
@@ -261,11 +270,42 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
       <div className="preview area">
         <h2>Preview Area</h2>
         <div className="preview-container" >
-          {
-            productImagesArray.length ?
-              <img src={productImagesArray[0]} alt="image" key={productImagesArray[1]} width={120} height={120} />
+          <div className="product-card-outer" >
+            {
+              productImagesArray.length ?
+                <>
+                  <img
+                    src={productImagesArray[0]}
+                    alt="image"
+                    key={productImagesArray[1]}
+                    width={250}
+                    height={250}
+                    className="product-img"
+                  />
+                  <span className="product-img-bg" />
+                </>
+                : ''
+            }
+            {productTitle ? <h3 className="product-name" >{productTitle}</h3> : ''}
+            {productPrice ?
+              <>
+                <div className="old-price" >₹{productOldPrice}</div>
+                <div className="new-price" >₹{productPrice}</div>
+              </>
               : ''
-          }
+            }
+            {
+              productTitle ?
+                <>
+                  <div className="btn-product" >
+                    <Icon name="cart" width={24} height={24} />
+                  </div>
+                  <div className="heart-icon" >
+                    <Icon name="heart" width={20} height={20} />
+                  </div>
+                </> : ''
+            }
+          </div>
         </div>
       </div>
     </>
