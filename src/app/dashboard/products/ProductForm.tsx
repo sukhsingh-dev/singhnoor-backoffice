@@ -64,11 +64,11 @@ interface FormType {
 
 
 const ProductForm = ({ formTitle, formData }: FormType) => {
+  // States
   const [productTitle, setTitle] = useState('');
   const [productDescription, setDescription] = useState('');
   const [productPrice, setProductPrice] = useState<number | undefined>();
   const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
-
   const [productCategory, setProductCategory] = useState([]);
   const [productGender, setProductGender] = useState([]);
   const [productSize, setProductSize] = useState([]);
@@ -77,11 +77,11 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productInfo, setProductInfo] = useState('');
   const [productStock, setProductStock] = useState('');
   const [productAdditional, setProductAdditional] = useState('');
-
   const [productImage, setProductImage] = useState('');
   const [productImageState, setProductImageState] = useState('');
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>([])
-
+  const [productAttributes, setProductAttributes] = useState<Array<string>>([])
+  // Methods
   const getCategories = async () => {
     const categoriesList = await axios.get('/api/categories')
     return categoriesList
@@ -93,7 +93,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
 
     categoryList.then((result) => {
       result.data.map((item: any) => {
-        const option = { value: item._id, label: item.categoryName }
+        const option = { value: item._id, label: item.categoryName, attr: item.categoryAttributes }
         newList.push(option)
       })
       callback(newList)
@@ -106,6 +106,10 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
 
   const handleCategoryChange = (selectedOptions: any) => {
     setProductCategory(selectedOptions)
+    setProductAttributes(selectedOptions.attr.map((item: any) => item.value))
+  }
+  const handleGenderChange = (selectedOptions: any) => {
+    setProductGender(selectedOptions)
   }
 
   const handlePriceChange = (itemPrice: number) => {
@@ -141,7 +145,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
           <div className="sn-multi-select">
             <Select
               isMulti
-              // onChange={handleSelectChange}
+              onChange={handleGenderChange}
               // defaultValue={defaultCategoryAttributes}
               options={genderOptions}
               instanceId="product-genders"
@@ -193,48 +197,63 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               placeholder="Add Tags"
             />
           </div>
-          <div className="sn-multi-select">
-            <Select
-              isMulti
-              // onChange={handleSelectChange}
-              // defaultValue={defaultCategoryAttributes}
-              options={sizeOptions}
-              instanceId="product-sizes"
-              placeholder="Select Size"
-            />
-          </div>
-
-          <div className="sn-multi-select">
-            <Select
-              isMulti
-              // onChange={handleSelectChange}
-              // defaultValue={defaultCategoryAttributes}
-              options={tshirtMaterialOptions}
-              instanceId="product-material"
-              placeholder="Select Material"
-            />
-          </div>
-          <div className="sn-multi-select">
-            <Select
-              isMulti
-              // onChange={handleSelectChange}
-              // defaultValue={defaultCategoryAttributes}
-              options={workOptions}
-              instanceId="product-work"
-              placeholder="Select Work"
-            />
-          </div>
-          <div className="sn-multi-select">
-            <CreatableSelect
-              isMulti
-              isClearable
-              // onChange={handleSelectChange}
-              // defaultValue={defaultCategoryAttributes}
-              options={colorOptions}
-              instanceId="product-color"
-              placeholder="Select Colors"
-            />
-          </div>
+          {
+            productAttributes.includes('size') ?
+              <div className="sn-multi-select">
+                <Select
+                  isMulti
+                  // onChange={handleSelectChange}
+                  // defaultValue={defaultCategoryAttributes}
+                  options={sizeOptions}
+                  instanceId="product-sizes"
+                  placeholder="Select Size"
+                />
+              </div>
+              : ''
+          }
+          {
+            productAttributes.includes('material') ?
+              <div className="sn-multi-select">
+                <Select
+                  isMulti
+                  // onChange={handleSelectChange}
+                  // defaultValue={defaultCategoryAttributes}
+                  options={tshirtMaterialOptions}
+                  instanceId="product-material"
+                  placeholder="Select Material"
+                />
+              </div>
+              : ''
+          }
+          {
+            productAttributes.includes('work') ?
+              <div className="sn-multi-select">
+                <Select
+                  isMulti
+                  // onChange={handleSelectChange}
+                  // defaultValue={defaultCategoryAttributes}
+                  options={workOptions}
+                  instanceId="product-work"
+                  placeholder="Select Work"
+                />
+              </div>
+              : ''
+          }
+          {
+            productAttributes.includes('colors') ?
+              <div className="sn-multi-select">
+                <CreatableSelect
+                  isMulti
+                  isClearable
+                  // onChange={handleSelectChange}
+                  // defaultValue={defaultCategoryAttributes}
+                  options={colorOptions}
+                  instanceId="product-color"
+                  placeholder="Select Colors"
+                />
+              </div>
+              : ''
+          }
           <div className="product-images" >
             <ReactSortable list={productImagesArray} setList={updateImagesOrder}>
               {

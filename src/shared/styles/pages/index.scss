@@ -216,6 +216,11 @@
   }
 }
 
+.sn-textarea {
+  height: rem(100);
+  resize: none;
+}
+
 .sn-input-label-set {
   display: flex;
   align-items: center;
