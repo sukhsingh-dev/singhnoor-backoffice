@@ -4,7 +4,7 @@ const CategoriesPage = async () => {
   return (
     <main className="sn-main-table" >
       <div className="sn-main-table-header">
-        <h2>Category Details</h2>
+        <h2>Categories Lists</h2>
         <Link href="/dashboard/categories/new" className="btn btn-secondary">Add new Category</Link>
       </div>
       <table>

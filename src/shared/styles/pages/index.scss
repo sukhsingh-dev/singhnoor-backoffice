@@ -431,3 +431,30 @@
     padding-inline: rem(16);
   }
 }
+
+.btn-view {
+  border: rem(1) solid var(--primary);
+  color: var(--primary) !important;
+}
+
+.product-name {
+  min-width: rem(120);
+}
+
+.product-actions {
+  min-width: rem(240);
+  position: sticky;
+  z-index: 2;
+  right: 0;
+  background: var(--border-light);
+  border-color: var(--border-dark) !important;
+
+  .btn-link {
+    margin-right: 1rem;
+  }
+}
+
+.table-responsive {
+  max-width: 100%;
+  overflow: auto;
+}

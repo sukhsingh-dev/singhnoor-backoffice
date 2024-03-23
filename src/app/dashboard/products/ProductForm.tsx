@@ -9,7 +9,7 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { ReactSortable } from "react-sortablejs";
 import AsyncSelect from 'react-select/async';
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const genderOptions = [
   { value: 'men', label: 'Men' },
@@ -83,7 +83,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>([])
   const [productAttributes, setProductAttributes] = useState<Array<string>>([])
   const [productTags, setProductTags] = useState([]);
-
+  const router = useRouter();
   // Methods
   const getCategories = async () => {
     const categoriesList = await axios.get('/api/categories')
@@ -159,7 +159,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     const creation = await axios.post('/api/products', data)
     alert("Product created")
     if (creation.status === 200) {
-      redirect('/dashboard/products/')
+      router.push('/dashboard/products/')
     }
     // console.log(productCategory)
   }
