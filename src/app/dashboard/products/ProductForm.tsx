@@ -65,10 +65,11 @@ interface FormType {
 
 
 const ProductForm = ({ formTitle, formData }: FormType) => {
+  console.log(formData)
   // States
-  const [productTitle, setTitle] = useState('');
-  const [productDescription, setDescription] = useState('');
-  const [productPrice, setProductPrice] = useState<number | string>('');
+  const [productTitle, setTitle] = useState(formData?.productTitle || '');
+  const [productDescription, setDescription] = useState(formData?.productDescription || '');
+  const [productPrice, setProductPrice] = useState<number | string>(formData?.productPrice || '');
   const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
   const [productCategory, setProductCategory] = useState('');
   const [productGender, setProductGender] = useState([]);
@@ -76,11 +77,11 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productWork, setProductWork] = useState([]);
   const [productMaterial, setProductMaterial] = useState([]);
   const [productColors, setProductColors] = useState([]);
-  const [productStock, setProductStock] = useState('');
-  const [productAdditional, setProductAdditional] = useState('');
+  const [productStock, setProductStock] = useState(formData?.productStock || '');
+  const [productAdditional, setProductAdditional] = useState(formData?.productAdditional || '');
   const [productImage, setProductImage] = useState('');
   const [productImageState, setProductImageState] = useState('');
-  const [productImagesArray, setProductImagesArray] = useState<Array<any>>([])
+  const [productImagesArray, setProductImagesArray] = useState<Array<any>>(formData?.productImagesArray || [])
   const [productAttributes, setProductAttributes] = useState<Array<string>>([])
   const [productTags, setProductTags] = useState([]);
   const router = useRouter();
@@ -90,9 +91,9 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     return categoriesList
   }
 
+  let newList: Array<object> = []
   const categoriesOptions = (searchValue: string, callback: (options: Array<object>) => void) => {
     const categoryList = getCategories();
-    let newList: Array<object> = []
 
     categoryList.then((result) => {
       result.data.map((item: any) => {
@@ -156,13 +157,24 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
       productColors,
       productWork
     }
-    const creation = await axios.post('/api/products', data)
-    alert("Product created")
-    if (creation.status === 200) {
+
+    let creation;
+    const productId = formData?._id;
+
+    if (productId) {
+      creation = await axios.put('/api/products', data)
+    } else {
+      creation = await axios.post('/api/products', data)
+    }
+
+    if (creation?.status === 200) {
+      alert("Product created")
       router.push('/dashboard/products/')
     }
     // console.log(productCategory)
   }
+
+  //form edit defaults
 
   return (
     <>
@@ -187,7 +199,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             <Select
               isMulti
               onChange={handleGenderChange}
-              // defaultValue={defaultCategoryAttributes}
+              defaultValue={formData?.productGender}
               options={genderOptions}
               instanceId="product-genders"
               placeholder="Select Gender"
@@ -232,19 +244,19 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               isMulti
               isClearable
               onChange={handleTagsChange}
-              // defaultValue={defaultCategoryAttributes}
+              defaultValue={formData?.productTags}
               options={tagOption}
               instanceId="product-tags"
               placeholder="Add Tags"
             />
           </div>
           {
-            productAttributes.includes('size') ?
+            productAttributes.includes('size') || formData?.productSize.length ?
               <div className="sn-multi-select">
                 <Select
                   isMulti
                   onChange={handleSizeChange}
-                  // defaultValue={defaultCategoryAttributes}
+                  defaultValue={formData?.productSize}
                   options={sizeOptions}
                   instanceId="product-sizes"
                   placeholder="Select Size"
@@ -253,12 +265,12 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               : ''
           }
           {
-            productAttributes.includes('material') ?
+            productAttributes.includes('material') || formData?.productMaterial.length ?
               <div className="sn-multi-select">
                 <Select
                   isMulti
                   onChange={handleMaterialChange}
-                  // defaultValue={defaultCategoryAttributes}
+                  defaultValue={formData?.productMaterial}
                   options={tshirtMaterialOptions}
                   instanceId="product-material"
                   placeholder="Select Material"
@@ -267,12 +279,12 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               : ''
           }
           {
-            productAttributes.includes('work') ?
+            productAttributes.includes('work') || formData?.productWork.length ?
               <div className="sn-multi-select">
                 <Select
                   isMulti
                   onChange={handleWorkChange}
-                  // defaultValue={defaultCategoryAttributes}
+                  defaultValue={formData?.productWork}
                   options={workOptions}
                   instanceId="product-work"
                   placeholder="Select Work"
@@ -281,13 +293,13 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               : ''
           }
           {
-            productAttributes.includes('colors') ?
+            productAttributes.includes('colors') || formData?.productColors.length ?
               <div className="sn-multi-select">
                 <CreatableSelect
                   isMulti
                   isClearable
                   onChange={handleColorsChange}
-                  // defaultValue={defaultCategoryAttributes}
+                  defaultValue={formData?.productColors}
                   options={colorOptions}
                   instanceId="product-color"
                   placeholder="Select Colors"
