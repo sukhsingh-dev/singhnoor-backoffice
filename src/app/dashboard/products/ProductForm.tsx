@@ -139,6 +139,11 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     setProductOldPrice(roundToNearestTen(itemPrice + (itemPrice / 2.5)))
   }
 
+  const removeImage = (imgName: string) => {
+    const newArray = productImagesArray.filter(item => item !== imgName);
+    setProductImagesArray(newArray);
+  }
+
   const createProduct = async (ev: FormEvent) => {
     ev.preventDefault();
     const data = {
@@ -161,7 +166,8 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     const productId = formData?._id;
 
     if (productId) {
-      creation = await axios.put(`/api/products?id=${productId}`, data)
+      const currentImageArray = formData?.productImagesArray;
+      creation = await axios.put(`/api/products?id=${productId}`, { ...data, currentImageArray })
     } else {
       creation = await axios.post('/api/products', data)
     }
@@ -313,7 +319,16 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
                 productImagesArray.map((imgName) => {
                   if (imgName != '') {
                     return (
-                      <img src={imgName} alt="image" key={imgName} width={80} height={80} />
+                      <div className="thumb-img-outer" key={imgName}>
+                        <img src={imgName} alt="image" width={80} height={80} />
+                        <button
+                          type="button"
+                          aria-label="remove-image"
+                          onClick={() => removeImage(imgName)}
+                        >
+                          <Icon name="close" />
+                        </button>
+                      </div>
                     )
                   }
                 })

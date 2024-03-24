@@ -91,6 +91,7 @@ export async function PUT(request: NextRequest) {
       productStock,
       productTags,
       productImagesArray,
+      currentImageArray,
       productSize,
       productMaterial,
       productColors,
@@ -98,6 +99,12 @@ export async function PUT(request: NextRequest) {
     } = await request.json()
 
     await mongooseConnect();
+
+    currentImageArray.map((imgUrl: string) => {
+      if(!productImagesArray.includes(imgUrl)) {
+        deleteImage(imgUrl)
+      }
+    })
 
     await Product.findByIdAndUpdate(id, {
       productCategory,
