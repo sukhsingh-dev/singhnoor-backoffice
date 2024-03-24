@@ -65,7 +65,6 @@ interface FormType {
 
 
 const ProductForm = ({ formTitle, formData }: FormType) => {
-  console.log(formData)
   // States
   const [productTitle, setTitle] = useState(formData?.productTitle || '');
   const [productDescription, setDescription] = useState(formData?.productDescription || '');

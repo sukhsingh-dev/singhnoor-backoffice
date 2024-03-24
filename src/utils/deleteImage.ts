@@ -11,5 +11,5 @@ export const deleteImage = async (imageKey: string) => {
   const imgNameKey =  extractImageKey(imageKey);
 
   const imgRes = await utapi.deleteFiles(imgNameKey);
-  console.log("The Image delete status", imgRes)
+  // console.log("The Image delete status", imgRes)
 }
