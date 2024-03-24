@@ -12,3 +12,6 @@ Sidebar Collapse
 Links-------------
 https://tutorial101.blogspot.com/2024/01/nextjs-14-crud-create-read-update-and.html
 https://github.com/burakorkmez/snapchat-clone/tree/master
+https://www.youtube.com/watch?v=dTFXufTgfOE
+https://github.com/dejwid/ecommerce-admin
+https://github.com/dejwid/ecommerce-front

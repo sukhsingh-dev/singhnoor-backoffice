@@ -3,15 +3,14 @@
 import axios from "axios"
 import { useRouter } from "next/navigation";
 
-const DeleteProduct = (item: any) => {
+const DeleteProduct = ({ item }: any) => {
   const router = useRouter();
-
   const handleClick = async () => {
-    alert(`sure to delete ${item.id}`)
-    const deletion = await axios.delete(`/api/products/${item.id}`)
+    alert(`sure to delete`)
+    const deletion = await axios.delete(`/api/products?id=${item}`)
 
     if (deletion.status === 200) {
-      alert("Category Deleted");
+      alert("Product Deleted");
       router.push('/dashboard/products/')
     }
   }

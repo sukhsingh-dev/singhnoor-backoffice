@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { mongooseConnect } from "../../../../lib/mongoose";
 import { Product } from "@/models/products";
-
+import { deleteImage } from "@/utils/deleteImage";
 export const POST = async (req: Request) => {
   try {
     await mongooseConnect();
@@ -61,4 +61,18 @@ export const GET = async (request: NextRequest) => {
 		console.log("Error in Category route handler", error);
 		throw error;
 	}
+}
+
+export async function DELETE(request: NextRequest) {
+    const product= request.nextUrl.searchParams;
+    const id= product.get("id");
+    await mongooseConnect();
+
+    const imgPath = await Product.findOne({_id: id},{productImagesArray: 1})
+    imgPath.productImagesArray.map((img: string) => {
+      deleteImage(img)
+    });
+    
+    await Product.deleteOne({_id: id});
+    return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
 }
