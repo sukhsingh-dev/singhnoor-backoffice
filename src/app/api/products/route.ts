@@ -76,3 +76,43 @@ export async function DELETE(request: NextRequest) {
     await Product.deleteOne({_id: id});
     return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
 }
+
+export async function PUT(request: NextRequest) {
+    const product= request.nextUrl.searchParams;
+    const id= product.get("id");
+
+    const {
+      productCategory,
+      productTitle,
+      productGender,
+      productPrice,
+      productDescription,
+      productAdditional,
+      productStock,
+      productTags,
+      productImagesArray,
+      productSize,
+      productMaterial,
+      productColors,
+      productWork
+    } = await request.json()
+
+    await mongooseConnect();
+
+    await Product.findByIdAndUpdate(id, {
+      productCategory,
+      productTitle,
+      productGender,
+      productPrice,
+      productDescription,
+      productAdditional,
+      productStock,
+      productTags,
+      productImagesArray,
+      productSize,
+      productMaterial,
+      productColors,
+      productWork
+    });
+    return NextResponse.json({ message: "Product updated" }, { status: 200 });
+}

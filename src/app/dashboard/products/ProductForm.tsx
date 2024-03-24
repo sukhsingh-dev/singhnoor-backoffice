@@ -71,18 +71,18 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productPrice, setProductPrice] = useState<number | string>(formData?.productPrice || '');
   const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
   const [productCategory, setProductCategory] = useState(formData?.productCategory || []);
-  const [productGender, setProductGender] = useState([]);
-  const [productSize, setProductSize] = useState([]);
-  const [productWork, setProductWork] = useState([]);
-  const [productMaterial, setProductMaterial] = useState([]);
-  const [productColors, setProductColors] = useState([]);
+  const [productGender, setProductGender] = useState(formData?.productGender || []);
+  const [productSize, setProductSize] = useState(formData?.productSize || []);
+  const [productWork, setProductWork] = useState(formData?.productWork || []);
+  const [productMaterial, setProductMaterial] = useState(formData?.productMaterial || []);
+  const [productColors, setProductColors] = useState(formData?.productColors || []);
   const [productStock, setProductStock] = useState(formData?.productStock || '');
   const [productAdditional, setProductAdditional] = useState(formData?.productAdditional || '');
   const [productImage, setProductImage] = useState('');
   const [productImageState, setProductImageState] = useState('');
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>(formData?.productImagesArray || [])
-  const [productAttributes, setProductAttributes] = useState<Array<string>>([])
-  const [productTags, setProductTags] = useState([]);
+  const [productAttributes, setProductAttributes] = useState<Array<string>>(formData?.productAttributes || [])
+  const [productTags, setProductTags] = useState(formData?.productTags || []);
   const router = useRouter();
   // Methods
   const getCategories = async () => {
@@ -161,7 +161,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     const productId = formData?._id;
 
     if (productId) {
-      creation = await axios.put('/api/products', data)
+      creation = await axios.put(`/api/products?id=${productId}`, data)
     } else {
       creation = await axios.post('/api/products', data)
     }
