@@ -55,7 +55,7 @@ const Sidebar = () => {
         <li>
           <Link href="/settings">
             <Icon name="settings" />
-            Settings
+            Taxes and Offers
           </Link>
         </li>
         <li>

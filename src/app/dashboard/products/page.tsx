@@ -33,7 +33,7 @@ const ProductsPage = async () => {
               data.map((product: any, index: number) => {
                 return (
                   <tr key={product._id}>
-                    <td>{index}</td>
+                    <td>{index + 1}</td>
                     <td>{product.productCategory.label}</td>
                     <td>{product.productTitle}</td>
                     <td>
