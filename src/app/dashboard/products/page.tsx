@@ -34,7 +34,7 @@ const ProductsPage = async () => {
                 return (
                   <tr key={product._id}>
                     <td>{index}</td>
-                    <td>{product.productCategory}</td>
+                    <td>{product.productCategory.label}</td>
                     <td>{product.productTitle}</td>
                     <td>
                       {

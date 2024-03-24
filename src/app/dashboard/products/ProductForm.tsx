@@ -70,7 +70,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productDescription, setDescription] = useState(formData?.productDescription || '');
   const [productPrice, setProductPrice] = useState<number | string>(formData?.productPrice || '');
   const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
-  const [productCategory, setProductCategory] = useState('');
+  const [productCategory, setProductCategory] = useState(formData?.productCategory || []);
   const [productGender, setProductGender] = useState([]);
   const [productSize, setProductSize] = useState([]);
   const [productWork, setProductWork] = useState([]);
@@ -90,9 +90,9 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     return categoriesList
   }
 
-  let newList: Array<object> = []
   const categoriesOptions = (searchValue: string, callback: (options: Array<object>) => void) => {
     const categoryList = getCategories();
+    let newList: Array<object> = []
 
     categoryList.then((result) => {
       result.data.map((item: any) => {
@@ -107,9 +107,9 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     setProductImagesArray(images)
   }
 
-  const handleCategoryChange = (selectedOptions: any) => {
-    setProductCategory(selectedOptions.value)
-    setProductAttributes(selectedOptions.attr.map((item: any) => item.value))
+  const handleCategoryChange = (selectedOption: any) => {
+    setProductCategory(selectedOption)
+    setProductAttributes(selectedOption.attr.map((item: any) => item.value))
   }
   const handleGenderChange = (selectedOptions: any) => {
     setProductGender(selectedOptions)
@@ -186,7 +186,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
           <div className="sn-multi-select">
             <AsyncSelect
               onChange={handleCategoryChange}
-              // defaultValue={defaultCategoryAttributes}
+              defaultValue={formData?.productCategory}
               loadOptions={categoriesOptions}
               defaultOptions
               instanceId="product-categories"
