@@ -5,7 +5,7 @@ const CategorySchema = new Schema({
   categoryBg: { type: String, required: true }, 
   categoryImg: { type: String, required: true }, 
   categoryAttributes: { type: Array, required: true },
-  subCategory: { type: Array, required: true }
+  subCategory: { type: Array }
 }, {
   timestamps: true,
 });

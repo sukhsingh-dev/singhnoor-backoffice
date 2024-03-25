@@ -40,6 +40,15 @@ const TableData = async () => {
             }
           </td>
           <td>
+            {
+              category.subCategory.map((attr: any) => {
+                return (
+                  <span className="span-attribute" key={attr.value}>{attr.label}</span>
+                )
+              })
+            }
+          </td>
+          <td>
             <Link href={`/dashboard/categories/edit/${category._id}`} className="btn-link btn-edit" >Edit</Link>
             <DeleteItem id={category._id} />
           </td>

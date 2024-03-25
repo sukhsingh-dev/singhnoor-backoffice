@@ -9,6 +9,7 @@ export const POST = async (req: Request) => {
     await mongooseConnect();
     const {
       productCategory,
+      productSubCategory,
       productTitle,
       productGender,
       productPrice,
@@ -25,6 +26,7 @@ export const POST = async (req: Request) => {
 
     const productDoc = await Product.create({
       productCategory,
+      productSubCategory,
       productTitle,
       productGender,
       productPrice,
@@ -87,6 +89,7 @@ export async function PUT(request: NextRequest) {
 
     const {
       productCategory,
+      productSubCategory,
       productTitle,
       productGender,
       productPrice,
@@ -112,6 +115,7 @@ export async function PUT(request: NextRequest) {
 
     await Product.findByIdAndUpdate(id, {
       productCategory,
+      productSubCategory,
       productTitle,
       productGender,
       productPrice,

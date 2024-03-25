@@ -17,6 +17,7 @@ const ProductsPage = async () => {
             <tr>
               <th>Sr. No</th>
               <th>Category</th>
+              <th>Sub</th>
               <th className="product-name" >Name</th>
               <th>Gender</th>
               <th>Size</th>
@@ -35,6 +36,7 @@ const ProductsPage = async () => {
                   <tr key={product._id}>
                     <td>{index + 1}</td>
                     <td>{product.productCategory.label}</td>
+                    <td>{product?.productSubCategory?.label}</td>
                     <td>{product.productTitle}</td>
                     <td>
                       {

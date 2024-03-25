@@ -25,6 +25,8 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productPrice, setProductPrice] = useState<number | string>(formData?.productPrice || '');
   const [productOldPrice, setProductOldPrice] = useState<number | undefined>();
   const [productCategory, setProductCategory] = useState(formData?.productCategory || []);
+  const [productSubCategory, setProductSubCategory] = useState(formData?.productSubCategory || []);
+  const [productSubCategoryList, setProductSubCategoryList] = useState(formData?.productCategory?.subCategory || []);
   const [productGender, setProductGender] = useState(formData?.productGender || []);
   const [productSize, setProductSize] = useState(formData?.productSize || []);
   const [productWork, setProductWork] = useState(formData?.productWork || []);
@@ -50,7 +52,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
 
     categoryList.then((result) => {
       result.data.map((item: any) => {
-        const option = { value: item._id, label: item.categoryName, attr: item.categoryAttributes }
+        const option = { value: item._id, label: item.categoryName, attr: item.categoryAttributes, subCategory: item.subCategory }
         newList.push(option)
       })
       callback(newList)
@@ -64,7 +66,17 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const handleCategoryChange = (selectedOption: any) => {
     setProductCategory(selectedOption)
     setProductAttributes(selectedOption.attr.map((item: any) => item.value))
+    if (selectedOption.subCategory.length) {
+      setProductSubCategoryList(selectedOption.subCategory)
+    } else {
+      setProductSubCategoryList([])
+    }
   }
+
+  const handleSubCategoryChange = (selectedOption: any) => {
+    setProductSubCategory(selectedOption)
+  }
+
   const handleGenderChange = (selectedOptions: any) => {
     setProductGender(selectedOptions)
   }
@@ -102,6 +114,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
     ev.preventDefault();
     const data = {
       productCategory,
+      productSubCategory,
       productTitle,
       productGender,
       productPrice,
@@ -153,7 +166,26 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               placeholder="Select Category"
             />
           </div>
-
+          <div className="sn-multi-select">
+            {
+              productSubCategoryList.length || formData?.productSubCategory ?
+                <Select
+                  onChange={handleSubCategoryChange}
+                  defaultValue={formData?.productSubCategory}
+                  options={productSubCategoryList}
+                  instanceId="product-sub-categories"
+                  placeholder="Select Subcategory"
+                />
+                : ''
+            }
+          </div>
+          <input
+            type="text"
+            placeholder="Product Name"
+            className="sn-input sn-input-full"
+            value={productTitle}
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <div className="sn-multi-select">
             <Select
               isMulti
@@ -164,14 +196,6 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
               placeholder="Select Gender"
             />
           </div>
-          <input
-            type="text"
-            placeholder="Product Name"
-            className="sn-input"
-            value={productTitle}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-
           <input
             type="number"
             placeholder="Price"

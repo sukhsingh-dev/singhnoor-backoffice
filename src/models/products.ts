@@ -2,6 +2,7 @@ import { model, Schema, models } from "mongoose";
 
 const ProductSchema = new Schema({
   productCategory: { type: Object, required: true },
+  productSubCategory: { type: Object },
   productTitle: {type: String, required: true},
   productGender: { type: Array, required: true },
   productPrice: {type: Number, required: true},

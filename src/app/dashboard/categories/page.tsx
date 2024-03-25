@@ -15,6 +15,7 @@ const CategoriesPage = async () => {
             <th>Name</th>
             <th>Bg Color</th>
             <th>Attributes</th>
+            <th>Subcategories</th>
             <th>Actions</th>
           </tr>
         </thead>
