@@ -1,7 +1,7 @@
 import ProductForm from "../../ProductForm";
 
 export default async function EditPage({ params }: { params: { id: string } }) {
-  const res = await fetch(`${process.env.APP_URL}/api/products?id=${params.id}`, { next: { tags: ['product'] } });
+  const res = await fetch(`${process.env.APP_URL}/api/products?id=${params.id}`, { cache: 'no-store' });
   const data = await res.json()
 
   return (

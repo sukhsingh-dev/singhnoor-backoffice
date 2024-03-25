@@ -2,40 +2,35 @@ import { NextResponse } from "next/server"
 import { mongooseConnect } from "../../../../../lib/mongoose";
 import { Category } from "@/models/category";
 import { deleteImage } from "@/utils/deleteImage";
-import { revalidateTag } from "next/cache";
 export async function PUT(request: Request, { params }: any) {
-    const { id } = params;
-    const { categoryName, categoryBg, categoryImg, categoryAttributes, currentImagePath, subCategory } = await request.json();
-    await mongooseConnect();
+  const { id } = params;
+  const { categoryName, categoryBg, categoryImg, categoryAttributes, currentImagePath, subCategory } = await request.json();
+  await mongooseConnect();
 
-    if(currentImagePath != categoryImg) {
-      deleteImage(currentImagePath)
-    }
+  if(currentImagePath != categoryImg) {
+    deleteImage(currentImagePath)
+  }
 
-    await Category.findByIdAndUpdate(id, { categoryName, categoryBg, categoryImg, categoryAttributes, subCategory});
-    revalidateTag('category');
-    return NextResponse.json({ message: "Product updated" }, { status: 200 });
+  await Category.findByIdAndUpdate(id, { categoryName, categoryBg, categoryImg, categoryAttributes, subCategory});
+  return NextResponse.json({ message: "Product updated" }, { status: 200 });
 }
  
 export async function GET(request: Request, { params }: any) {
-    const { id } = params;
-    await mongooseConnect();
+  const { id } = params;
+  await mongooseConnect();
 
-    const category = await Category.findOne({ _id: id });
-    revalidateTag('category');
-    return NextResponse.json({ category }, { status: 200 });
-
+  const category = await Category.findOne({ _id: id });
+  return NextResponse.json({ category }, { status: 200 });
 }
 
 export async function DELETE(request: Request, { params }: any) {
-    const { id } = params;
-    await mongooseConnect();
+  const { id } = params;
+  await mongooseConnect();
 
-    const imgPath = await Category.findOne({_id: id},{categoryImg: 1})
-    deleteImage(imgPath.categoryImg)
-    
-    await Category.deleteOne({_id: id});
-    revalidateTag('category');
-    return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
+  const imgPath = await Category.findOne({_id: id},{categoryImg: 1})
+  deleteImage(imgPath.categoryImg)
+  
+  await Category.deleteOne({_id: id});
+  return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
 }
 
