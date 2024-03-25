@@ -38,7 +38,7 @@ export const POST = async (req: Request) => {
       productColors,
       productWork
     })
-
+    revalidateTag('product');
     return new NextResponse(productDoc,{ status: 200 })
   } catch (error) {
 		console.log("Error in Category route handler", error);
@@ -77,6 +77,7 @@ export async function DELETE(request: NextRequest) {
     });
     
     await Product.deleteOne({_id: id});
+    revalidateTag('product');
     return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
 }
 
@@ -124,5 +125,6 @@ export async function PUT(request: NextRequest) {
       productColors,
       productWork
     });
+    revalidateTag('product');
     return NextResponse.json({ message: "Product updated" }, { status: 200 });
 }

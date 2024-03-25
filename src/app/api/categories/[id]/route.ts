@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { mongooseConnect } from "../../../../../lib/mongoose";
 import { Category } from "@/models/category";
 import { deleteImage } from "@/utils/deleteImage";
-
+import { revalidateTag } from "next/cache";
 export async function PUT(request: Request, { params }: any) {
     const { id } = params;
     const { categoryName, categoryBg, categoryImg, categoryAttributes, currentImagePath, subCategory } = await request.json();
@@ -13,6 +13,7 @@ export async function PUT(request: Request, { params }: any) {
     }
 
     await Category.findByIdAndUpdate(id, { categoryName, categoryBg, categoryImg, categoryAttributes, subCategory});
+    revalidateTag('category');
     return NextResponse.json({ message: "Product updated" }, { status: 200 });
 }
  
@@ -21,6 +22,7 @@ export async function GET(request: Request, { params }: any) {
     await mongooseConnect();
 
     const category = await Category.findOne({ _id: id });
+    revalidateTag('category');
     return NextResponse.json({ category }, { status: 200 });
 
 }
@@ -33,6 +35,7 @@ export async function DELETE(request: Request, { params }: any) {
     deleteImage(imgPath.categoryImg)
     
     await Category.deleteOne({_id: id});
+    revalidateTag('category');
     return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
 }
 

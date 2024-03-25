@@ -1,7 +1,7 @@
 import CategoryForm from "../../CategoryForm"
 
 export default async function EditPage({ params }: { params: { id: string } }) {
-  const res = await fetch(`${process.env.APP_URL}/api/categories/${params.id}`);
+  const res = await fetch(`${process.env.APP_URL}/api/categories/${params.id}`, { next: { tags: ['category'] } });
   const data = await res.json()
 
   return (

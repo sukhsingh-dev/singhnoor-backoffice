@@ -13,7 +13,7 @@ export const POST = async (req: Request) => {
     const categoryDoc = await Category.create({
       categoryName, categoryBg, categoryImg, categoryAttributes, subCategory
     })
-
+    revalidateTag('category');
     return new NextResponse(categoryDoc,{ status: 200 })
   }
 }
