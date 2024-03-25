@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { mongooseConnect } from "../../../../lib/mongoose";
 import { Product } from "@/models/products";
 import { deleteImage } from "@/utils/deleteImage";
+import { revalidateTag } from 'next/cache';
+
 export const POST = async (req: Request) => {
   try {
     await mongooseConnect();
@@ -56,6 +58,7 @@ export const GET = async (request: NextRequest) => {
     } else {
       data = await Product.findOne({ _id: id });
     }
+    revalidateTag('product');
 		return NextResponse.json(data, { status: 200 });
 	} catch (error) {
 		console.log("Error in Category route handler", error);

@@ -19,7 +19,7 @@ const TableData = async () => {
   //   })
   // }, [])
 
-  const res = await fetch(`${process.env.APP_URL}/api/categories`);
+  const res = await fetch(`${process.env.APP_URL}/api/categories`, { next: { tags: ['category'] } });
   const data = await res.json()
 
   return (

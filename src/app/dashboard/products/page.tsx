@@ -2,7 +2,7 @@ import Link from "next/link"
 import DeleteProduct from "./DeleteProduct";
 
 const ProductsPage = async () => {
-  const res = await fetch(`${process.env.APP_URL}/api/products`);
+  const res = await fetch(`${process.env.APP_URL}/api/products`, { next: { tags: ['product'] } });
   const data = await res.json()
 
   return (
