@@ -5,14 +5,14 @@ import { deleteImage } from "@/utils/deleteImage";
 
 export async function PUT(request: Request, { params }: any) {
     const { id } = params;
-    const { categoryName, categoryBg, categoryImg, categoryAttributes, currentImagePath } = await request.json();
+    const { categoryName, categoryBg, categoryImg, categoryAttributes, currentImagePath, subCategory } = await request.json();
     await mongooseConnect();
 
     if(currentImagePath != categoryImg) {
       deleteImage(currentImagePath)
     }
 
-    await Category.findByIdAndUpdate(id, { categoryName, categoryBg, categoryImg, categoryAttributes});
+    await Category.findByIdAndUpdate(id, { categoryName, categoryBg, categoryImg, categoryAttributes, subCategory});
     return NextResponse.json({ message: "Product updated" }, { status: 200 });
 }
  

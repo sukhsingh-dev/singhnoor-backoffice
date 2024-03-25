@@ -8,10 +8,10 @@ export const POST = async (req: Request) => {
   await mongooseConnect();
 
   if(method == "POST") {
-    const {categoryName, categoryBg, categoryImg, categoryAttributes} = await req.json()
+    const {categoryName, categoryBg, categoryImg, categoryAttributes, subCategory} = await req.json()
 
     const categoryDoc = await Category.create({
-      categoryName, categoryBg, categoryImg, categoryAttributes
+      categoryName, categoryBg, categoryImg, categoryAttributes, subCategory
     })
 
     return new NextResponse(categoryDoc,{ status: 200 })

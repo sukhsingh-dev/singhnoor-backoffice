@@ -9,6 +9,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react"
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 interface FormType {
   title: string,
@@ -21,7 +22,7 @@ const CategoryForm = ({ title, formData }: FormType) => {
   const [categoryBg, setCategoryBg] = useState(formData?.category.categoryBg || '#208a65');
   const [categoryImg, setCategoryImg] = useState(formData?.category.categoryImg || '');
   const [categoryAttributes, setCategoryAttributes] = useState(formData?.category.categoryAttributes || []);
-
+  const [subCategory, setSubCategory] = useState(formData?.category.subCategory || [])
   const [categoryImgState, setCategoryImgState] = useState(formData?.category.categoryImg ? 'complete' : '');
 
   const defaultCategoryAttributes = formData?.category.categoryAttributes ? formData.category.categoryAttributes.map((attr: any) => categoryAttributesOptions.find((option) => option.value === attr.value)) : [];
@@ -33,12 +34,15 @@ const CategoryForm = ({ title, formData }: FormType) => {
   const handleSelectChange = (selectedOptions: any) => {
     setCategoryAttributes(selectedOptions)
   }
+  const handleCreateSubCategory = (selectedOptions: any) => {
+    setSubCategory(selectedOptions)
+  }
 
   const saveCategory = async (ev: FormEvent) => {
     ev.preventDefault();
     const categoryId = formData?.category?._id;
 
-    const data = { categoryName, categoryBg, categoryImg, categoryAttributes }
+    const data = { categoryName, categoryBg, categoryImg, categoryAttributes, subCategory }
     let creation;
 
     if (categoryId) {
@@ -68,6 +72,16 @@ const CategoryForm = ({ title, formData }: FormType) => {
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
           />
+          <div className="sn-multi-select">
+            <CreatableSelect
+              isMulti
+              isClearable
+              onChange={handleCreateSubCategory}
+              defaultValue={formData?.category.subCategory}
+              instanceId="category-sub"
+              placeholder="Add Subcategory"
+            />
+          </div>
           <div className="sn-multi-select">
             <Select
               isMulti
