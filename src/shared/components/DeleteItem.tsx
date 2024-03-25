@@ -7,12 +7,14 @@ const DeleteItem = (item: any) => {
   const router = useRouter();
 
   const handleClick = async () => {
-    alert(`sure to delete ${item.id}`)
-    const deletion = await axios.delete(`/api/categories/${item.id}`)
+    const isConfirm = confirm(`sure to delete`)
+    if (isConfirm) {
+      const deletion = await axios.delete(`/api/categories/${item.id}`)
 
-    if (deletion.status === 200) {
-      alert("Category Deleted");
-      router.push('/dashboard/categories/')
+      if (deletion.status === 200) {
+        alert("Category Deleted");
+        router.push('/dashboard/categories/')
+      }
     }
   }
 

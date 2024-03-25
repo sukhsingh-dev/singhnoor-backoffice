@@ -394,6 +394,7 @@
   color: var(--text);
   display: grid;
   position: relative;
+  overflow: hidden;
 
   &:empty {
     display: none;
@@ -415,7 +416,15 @@
     grid-row: 1;
     grid-column: 1;
     color: var(--page-color-red-light);
-    padding: rem(16) rem(12);
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.6);
+    width: rem(28);
+    height: rem(28);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-left: rem(8);
+    margin-top: rem(8);
   }
 
   .product-img {
@@ -438,7 +447,7 @@
 
   .product-name {
     font-weight: 500;
-    font-size: 1.25rem;
+    font-size: rem(18);
     color: var(--text);
     padding: rem(8) rem(16);
   }
