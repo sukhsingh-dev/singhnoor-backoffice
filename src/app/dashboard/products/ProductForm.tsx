@@ -10,53 +10,7 @@ import CreatableSelect from 'react-select/creatable';
 import { ReactSortable } from "react-sortablejs";
 import AsyncSelect from 'react-select/async';
 import { useRouter } from "next/navigation";
-
-const genderOptions = [
-  { value: 'men', label: 'Men' },
-  { value: 'women', label: 'Women' },
-  { value: 'couple', label: 'Couple' },
-  { value: 'kids', label: 'Kids' }
-];
-
-const sizeOptions = [
-  { value: 'xs', label: 'XS' },
-  { value: 's', label: 'S' },
-  { value: 'm', label: 'M' },
-  { value: 'l', label: 'L' },
-  { value: 'xl', label: 'XL' },
-  { value: 'xxl', label: 'XXL' },
-  { value: '3xl', label: '3XL' }
-];
-
-const workOptions = [
-  { value: 'gold', label: 'Gold' },
-  { value: 'silver', label: 'Silver' }
-];
-
-const colorOptions = [
-  { value: 'black', label: 'Black' },
-  { value: 'white', label: 'White' }
-];
-
-const gatraMaterialOptions = [
-  { value: 'leather', label: 'Leather' },
-  { value: 'clothe', label: 'Clothe' }
-];
-
-const tshirtMaterialOptions = [
-  { value: 'cotton', label: 'Cotton' },
-  { value: 'linen', label: 'Linen' }
-];
-
-const leatherMaterialOption = [
-  { value: 'darkLeather', label: 'Dark Leather' },
-  { value: 'softLeather', label: 'Soft Leather' }
-]
-
-const tagOption = [
-  { value: 'nihang', label: 'Nihang' },
-  { value: 'Khalsa', label: 'Khalsa' },
-]
+import { colorOptions, genderOptions, sizeOptions, tagOption, tshirtMaterialOptions, workOptions } from "@/utils/options";
 
 interface FormType {
   formTitle: string,

@@ -4,17 +4,11 @@
 
 import Icon from "@/shared/components/Icon";
 import SnUploadButton from "@/shared/components/UploadButton";
+import { categoryAttributesOptions } from "@/utils/options";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react"
 import Select from 'react-select';
-
-const options = [
-  { value: 'size', label: 'Size' },
-  { value: 'colors', label: 'Colors' },
-  { value: 'material', label: 'Material' },
-  { value: 'work', label: 'Work' }
-];
 
 interface FormType {
   title: string,
@@ -30,7 +24,7 @@ const CategoryForm = ({ title, formData }: FormType) => {
 
   const [categoryImgState, setCategoryImgState] = useState(formData?.category.categoryImg ? 'complete' : '');
 
-  const defaultCategoryAttributes = formData?.category.categoryAttributes ? formData.category.categoryAttributes.map((attr: any) => options.find((option) => option.value === attr.value)) : [];
+  const defaultCategoryAttributes = formData?.category.categoryAttributes ? formData.category.categoryAttributes.map((attr: any) => categoryAttributesOptions.find((option) => option.value === attr.value)) : [];
   const currentImagePath = formData?.category.categoryImg;
 
   const router = useRouter();
@@ -78,7 +72,7 @@ const CategoryForm = ({ title, formData }: FormType) => {
             <Select
               isMulti
               onChange={handleSelectChange}
-              options={options}
+              options={categoryAttributesOptions}
               defaultValue={defaultCategoryAttributes}
               instanceId="category-attribute"
               placeholder="Select Attributes"
