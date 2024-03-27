@@ -1,5 +1,6 @@
 'use client'
 
+import useOutSideClick from "@/utils/useOutSideClick"
 import { useState } from "react"
 
 interface DropDownTypes {
@@ -8,11 +9,12 @@ interface DropDownTypes {
 }
 
 const DropDown = ({ menu, items }: DropDownTypes) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const { targetRef, isOpen, setIsOpen } = useOutSideClick(false)
 
   return (
     <div
       className={`dropdown-outer ${isOpen ? 'active' : ''} `}
+      ref={targetRef}
     >
       <button
         type="button"
