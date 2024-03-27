@@ -1,5 +1,7 @@
 import Link from "next/link"
 import DeleteProduct from "./DeleteProduct";
+import DropDown from "@/shared/components/Dropdown";
+import Icon from "@/shared/components/Icon";
 
 const ProductsPage = async () => {
   const res = await fetch(`${process.env.APP_URL}/api/products`, { cache: 'no-store' });
@@ -95,9 +97,22 @@ const ProductsPage = async () => {
                     <td>{product.productPrice}</td>
 
                     <td className="product-actions" >
-                      <Link href={`${process.env.FRONTEND_URL}/shop/${product._id}`} className="btn-link btn-view" >View</Link>
-                      <Link href={`/dashboard/products/edit/${product._id}`} className="btn-link btn-edit" >Edit</Link>
-                      <DeleteProduct item={product._id} />
+                      <DropDown
+                        menu={<Icon name="menu-vertical" />}
+                        items={
+                          <ul>
+                            <li>
+                              <a href={`${process.env.FRONTEND_URL}/product/${product._id}`} className="btn-link btn-view" target="_blank" >View</a>
+                            </li>
+                            <li>
+                              <Link href={`/dashboard/products/edit/${product._id}`} className="btn-link btn-edit" >Edit</Link>
+                            </li>
+                            <li>
+                              <DeleteProduct item={product._id} />
+                            </li>
+                          </ul>
+                        }
+                      />
                     </td>
                   </tr>
                 )

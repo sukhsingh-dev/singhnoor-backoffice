@@ -2,6 +2,8 @@
 
 import Link from "next/link"
 import DeleteItem from "@/shared/components/DeleteItem";
+import DropDown from "@/shared/components/Dropdown";
+import Icon from "@/shared/components/Icon";
 
 const TableData = async () => {
   const res = await fetch(`${process.env.APP_URL}/api/categories`, { cache: 'no-store' });
@@ -34,8 +36,19 @@ const TableData = async () => {
             }
           </td>
           <td>
-            <Link href={`/dashboard/categories/edit/${category._id}`} className="btn-link btn-edit" >Edit</Link>
-            <DeleteItem id={category._id} />
+            <DropDown
+              menu={<Icon name="menu-vertical" />}
+              items={
+                <ul>
+                  <li>
+                    <Link href={`/dashboard/categories/edit/${category._id}`} className="btn-link btn-edit" >Edit</Link>
+                  </li>
+                  <li>
+                    <DeleteItem id={category._id} />
+                  </li>
+                </ul>
+              }
+            />
           </td>
         </tr>
       )
