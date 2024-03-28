@@ -12,6 +12,7 @@
     "@auth/mongodb-adapter": "^2.5.0",
     "@uploadthing/react": "^6.4.0",
     "axios": "^1.6.7",
+    "jodit-react": "^4.0.15",
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.1",
     "next": "14.1.3",

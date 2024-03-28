@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 import axios from "axios";
 import SnUploadButton from "@/shared/components/UploadButton";
 import Icon from "@/shared/components/Icon";
@@ -11,6 +11,7 @@ import { ReactSortable } from "react-sortablejs";
 import AsyncSelect from 'react-select/async';
 import { useRouter } from "next/navigation";
 import { colorOptions, genderOptions, sizeOptions, tagOption, tshirtMaterialOptions, workOptions } from "@/utils/options";
+import JoditEditor from 'jodit-react';
 
 interface FormType {
   formTitle: string,
@@ -39,6 +40,8 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>(formData?.productImagesArray || [])
   const [productAttributes, setProductAttributes] = useState<Array<string>>(formData?.productAttributes || [])
   const [productTags, setProductTags] = useState(formData?.productTags || []);
+  const editor = useRef(null);
+  const editorAdditional = useRef(null);
   const router = useRouter();
   // Methods
   const getCategories = async () => {
@@ -203,17 +206,15 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             value={productPrice}
             onChange={(e) => handlePriceChange(parseInt(e.target.value))}
           />
-          <textarea
-            placeholder="Product Description"
-            className="sn-input sn-textarea"
+          <JoditEditor
+            ref={editor}
             value={productDescription}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={newContent => setDescription(newContent)}
           />
-          <textarea
-            placeholder="Additional Information"
-            className="sn-input sn-textarea"
+          <JoditEditor
+            ref={editorAdditional}
             value={productAdditional}
-            onChange={(e) => setProductAdditional(e.target.value)}
+            onChange={newContent => setProductAdditional(newContent)}
           />
           <input
             type="number"
