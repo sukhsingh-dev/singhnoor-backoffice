@@ -326,6 +326,10 @@
         color: #000;
         cursor: pointer;
       }
+
+      +div {
+        z-index: 2;
+      }
     }
   }
 
@@ -545,6 +549,10 @@
       display: block;
     }
   }
+}
+
+.jodit {
+  color: var(--text);
 }
 
 .jodit-react-container {

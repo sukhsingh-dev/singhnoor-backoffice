@@ -94,7 +94,7 @@ const ProductsPage = async () => {
                         })
                       }
                     </td>
-                    <td>{product.productPrice}</td>
+                    <td>₹{product.productPrice}</td>
 
                     <td className="product-actions" >
                       <DropDown
