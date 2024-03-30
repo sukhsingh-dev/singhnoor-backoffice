@@ -493,6 +493,10 @@
   .btn-link {
     margin-right: 1rem;
   }
+
+  &:has(.active) {
+    z-index: 3;
+  }
 }
 
 .table-responsive {
