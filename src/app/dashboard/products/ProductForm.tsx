@@ -10,7 +10,7 @@ import CreatableSelect from 'react-select/creatable';
 import { ReactSortable } from "react-sortablejs";
 import AsyncSelect from 'react-select/async';
 import { useRouter } from "next/navigation";
-import { colorOptions, genderOptions, sizeOptions, tagOption, tshirtMaterialOptions, workOptions } from "@/utils/options";
+import { colorOptions, genderOptions, sizeOptions, tagOption, tshirtMaterialOptions, workOptions, gatraMaterialOptions } from "@/utils/options";
 import JoditEditor from 'jodit-react';
 
 interface FormType {
@@ -40,6 +40,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>(formData?.productImagesArray || [])
   const [productAttributes, setProductAttributes] = useState<Array<string>>(formData?.productAttributes || [])
   const [productTags, setProductTags] = useState(formData?.productTags || []);
+  const [productMaterialOptions, setProductMaterialOptions] = useState(tshirtMaterialOptions);
   const editor = useRef(null);
   const editorAdditional = useRef(null);
   const router = useRouter();
@@ -67,12 +68,18 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   }
 
   const handleCategoryChange = (selectedOption: any) => {
+    console.log(selectedOption)
     setProductCategory(selectedOption)
     setProductAttributes(selectedOption.attr.map((item: any) => item.value))
     if (selectedOption.subCategory.length) {
       setProductSubCategoryList(selectedOption.subCategory)
     } else {
       setProductSubCategoryList([])
+    }
+    if (selectedOption.label === "Gatra") {
+      setProductMaterialOptions(gatraMaterialOptions)
+    } else if (selectedOption.label === "Clothing") {
+      setProductMaterialOptions(tshirtMaterialOptions)
     }
   }
 
@@ -255,7 +262,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
                   isMulti
                   onChange={handleMaterialChange}
                   defaultValue={formData?.productMaterial}
-                  options={tshirtMaterialOptions}
+                  options={productMaterialOptions}
                   instanceId="product-material"
                   placeholder="Select Material"
                 />

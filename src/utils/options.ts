@@ -29,12 +29,13 @@ export const workOptions = [
 
 export const colorOptions = [
   { value: 'black', label: 'Black' },
-  { value: 'white', label: 'White' }
+  { value: 'white', label: 'White' },
+  { value: 'maroon', label: 'Maroon' }
 ];
 
 export const gatraMaterialOptions = [
   { value: 'leather', label: 'Leather' },
-  { value: 'clothe', label: 'Clothe' }
+  { value: 'clothe', label: 'Fabric' }
 ];
 
 export const tshirtMaterialOptions = [
