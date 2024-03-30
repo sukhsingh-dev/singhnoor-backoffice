@@ -54,7 +54,7 @@ export const GET = async (request: NextRequest) => {
   try {
 		await mongooseConnect();
     if (!id) {
-      data = await Product.find();
+      data = await Product.find().sort({ updatedAt: -1 });
     } else {
       data = await Product.findOne({ _id: id });
     }
