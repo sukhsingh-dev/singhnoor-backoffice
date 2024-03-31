@@ -49,14 +49,23 @@ export const POST = async (req: Request) => {
 export const GET = async (request: NextRequest) => {
   const product= request.nextUrl.searchParams;
   const id= product.get("id")
+  const filters= product.get("filters")
+  const category= product.get("category")
+
+  console.log("Filters are",product)
+  
   let data;
 
   try {
 		await mongooseConnect();
-    if (!id) {
-      data = await Product.find().sort({ updatedAt: -1 });
+    if(!filters) {
+      if (!id) {
+        data = await Product.find().sort({ updatedAt: -1 });
+      } else {
+        data = await Product.findOne({ _id: id });
+      }
     } else {
-      data = await Product.findOne({ _id: id });
+      data = await Product.find({ 'productCategory.value' : category }).sort({ updatedAt: -1 });
     }
 		return NextResponse.json(data, { status: 200 });
 	} catch (error) {
