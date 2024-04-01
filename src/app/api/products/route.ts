@@ -51,7 +51,7 @@ export const GET = async (request: NextRequest) => {
   const id= product.get("id")
   const filters= product.get("filters")
   let data;
-
+  
   try {
 		await mongooseConnect();
     if(!filters) {
@@ -77,9 +77,15 @@ export const GET = async (request: NextRequest) => {
       Object.keys(filterMap).forEach(param => {
         const values = product.getAll(param);
         if (values.length > 0) {
-          query[filterMap[param]] = { $in: values };
+          if (values.some(value => value.includes(','))) {
+            const valueArray = values.reduce<string[]>((acc, curr) => acc.concat(curr.split(',')), []);
+            query.$or = valueArray.map(value => ({ [filterMap[param]]: value }));
+          } else {
+            query[filterMap[param]] = { $in: values };
+          }
         }
       });
+      console.log("Query is", query)
       data = await Product.find(query).sort({ updatedAt: -1 });
     }
 		return NextResponse.json(data, { status: 200 });
