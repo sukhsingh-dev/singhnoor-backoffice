@@ -51,7 +51,8 @@ export const GET = async (request: NextRequest) => {
   const id= product.get("id")
   const filters= product.get("filters")
   const category= product.get("category")
-  
+  const categoriesArray = category?.split(',')
+
   let data;
 
   try {
@@ -63,7 +64,7 @@ export const GET = async (request: NextRequest) => {
         data = await Product.findOne({ _id: id });
       }
     } else {
-      data = await Product.find({ 'productCategory.label' : category }).sort({ updatedAt: -1 });
+      data = await Product.find({ 'productCategory.label' : { $in: categoriesArray } }).sort({ updatedAt: -1 });
     }
 		return NextResponse.json(data, { status: 200 });
 	} catch (error) {
