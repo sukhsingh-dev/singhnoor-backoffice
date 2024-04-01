@@ -50,9 +50,6 @@ export const GET = async (request: NextRequest) => {
   const product= request.nextUrl.searchParams;
   const id= product.get("id")
   const filters= product.get("filters")
-  const category= product.get("category")
-  const categoriesArray = category?.split(',')
-
   let data;
 
   try {
@@ -64,7 +61,26 @@ export const GET = async (request: NextRequest) => {
         data = await Product.findOne({ _id: id });
       }
     } else {
-      data = await Product.find({ 'productCategory.label' : { $in: categoriesArray } }).sort({ updatedAt: -1 });
+      let query:any = {};
+      const filterMap: any = {
+        category: 'productCategory.label',
+        subCategory: 'productSubCategory.label',
+        for: 'productGender.value',
+        tag: 'productTags.value',
+        size: 'productSize.value',
+        material: 'productMaterial',
+        color: 'productColors.value',
+        work: 'productWork.value'
+      };
+
+      // Build the query based on available filter arrays
+      Object.keys(filterMap).forEach(param => {
+        const values = product.getAll(param);
+        if (values.length > 0) {
+          query[filterMap[param]] = { $in: values };
+        }
+      });
+      data = await Product.find(query).sort({ updatedAt: -1 });
     }
 		return NextResponse.json(data, { status: 200 });
 	} catch (error) {
