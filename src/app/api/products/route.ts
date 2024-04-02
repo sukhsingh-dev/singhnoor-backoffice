@@ -85,7 +85,6 @@ export const GET = async (request: NextRequest) => {
           }
         }
       });
-      console.log("Query is", query)
       data = await Product.find(query).sort({ updatedAt: -1 });
     }
 		return NextResponse.json(data, { status: 200 });
