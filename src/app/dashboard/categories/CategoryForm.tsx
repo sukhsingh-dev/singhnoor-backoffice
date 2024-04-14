@@ -4,12 +4,11 @@
 
 import Icon from "@/shared/components/Icon";
 import SnUploadButton from "@/shared/components/UploadButton";
-import { categoryAttributesOptions } from "@/utils/options";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react"
-import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import AsyncSelect from 'react-select/async';
 
 interface FormType {
   title: string,
@@ -25,7 +24,6 @@ const CategoryForm = ({ title, formData }: FormType) => {
   const [subCategory, setSubCategory] = useState(formData?.category.subCategory || [])
   const [categoryImgState, setCategoryImgState] = useState(formData?.category.categoryImg ? 'complete' : '');
 
-  const defaultCategoryAttributes = formData?.category.categoryAttributes ? formData.category.categoryAttributes.map((attr: any) => categoryAttributesOptions.find((option) => option.value === attr.value)) : [];
   const currentImagePath = formData?.category.categoryImg;
 
   const router = useRouter();
@@ -36,6 +34,25 @@ const CategoryForm = ({ title, formData }: FormType) => {
   }
   const handleCreateSubCategory = (selectedOptions: any) => {
     setSubCategory(selectedOptions)
+  }
+
+  const getAttributes = async () => {
+    const categoriesList = await axios.get('/api/attributes')
+    return categoriesList
+  }
+
+  const attributeOptions = (searchValue: string, callback: (options: Array<object>) => void) => {
+    const attributeList = getAttributes();
+    let newList: Array<object> = []
+
+    attributeList.then((result) => {
+      result.data.map((item: any) => {
+        const option = { value: item._id, label: item.attributeName }
+        newList.push(option)
+      })
+      callback(newList)
+      console.log("View the", newList)
+    })
   }
 
   const saveCategory = async (ev: FormEvent) => {
@@ -57,6 +74,7 @@ const CategoryForm = ({ title, formData }: FormType) => {
       router.push('/dashboard/categories/')
     }
   }
+
   return (
     <>
       <div className="form-area">
@@ -83,11 +101,12 @@ const CategoryForm = ({ title, formData }: FormType) => {
             />
           </div>
           <div className="sn-multi-select">
-            <Select
+            <AsyncSelect
               isMulti
+              defaultOptions
               onChange={handleSelectChange}
-              options={categoryAttributesOptions}
-              defaultValue={defaultCategoryAttributes}
+              loadOptions={attributeOptions}
+              defaultValue={formData?.category.categoryAttributes}
               instanceId="category-attribute"
               placeholder="Select Attributes"
             />
