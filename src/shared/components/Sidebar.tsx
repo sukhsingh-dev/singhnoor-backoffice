@@ -3,11 +3,12 @@
 import Link from "next/link"
 import Icon from "./Icon"
 import Logout from "./Logout"
-import { useRouter } from "next/router"
 import { usePathname } from 'next/navigation'
+import { useState } from "react"
 /* eslint-disable @next/next/no-img-element */
 const Sidebar = () => {
   const pathname = usePathname()
+  const [categorySubmenus, setCategorySubmenus] = useState(false)
 
   return (
     <aside className="sn-aside">
@@ -27,17 +28,38 @@ const Sidebar = () => {
             Orders
           </Link>
         </li>
-        <li className={pathname.includes('/products') ? 'active' : ''}>
+        <li className={`${pathname.includes('/products') ? 'active' : ''}`}>
           <Link href="/dashboard/products">
             <Icon name="product" />
             Products
           </Link>
         </li>
-        <li className={pathname.includes('/categories') ? 'active' : ''}>
+        <li className={`link-dropdown ${pathname.includes('/categories') ? 'active' : ''}`}>
           <Link href="/dashboard/categories">
             <Icon name="categories" />
             Categories
           </Link>
+          <button
+            type="button"
+            className="btn-dropdown-link-toggle"
+            onClick={() => setCategorySubmenus(prev => !prev)}
+          >
+            <Icon name="chevron-down" />
+          </button>
+          {
+            categorySubmenus &&
+            <ul className="link-submenus" >
+              <li>
+                <Link href="/dashboard/categories/new" >New Category</Link>
+              </li>
+              <li>
+                <Link href="/dashboard/attributes">Attributes List</Link>
+              </li>
+              <li>
+                <Link href="/dashboard/attributes/new">New Attributes</Link>
+              </li>
+            </ul>
+          }
         </li>
         <li>
           <Link href="/frontend">
