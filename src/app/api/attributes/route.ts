@@ -1,6 +1,6 @@
 import { Attribute } from "@/models/attribute";
 import { mongooseConnect } from "../../../../lib/mongoose";
-import { NextResponse } from "next/server"
+import { NextResponse, NextRequest } from "next/server"
 export const POST = async (req: Request) => {
   const {method} = req;
   
@@ -25,4 +25,13 @@ export const GET = async () => {
 		console.log("Error in Attribute route handler", error);
 		throw error;
 	}
+}
+
+export async function DELETE(request: NextRequest) {
+  const attribute = request.nextUrl.searchParams;
+  const id= attribute.get("id");
+  await mongooseConnect();
+  
+  await Attribute.deleteOne({_id: id});
+  return NextResponse.json({ message: "Attribute Deleted" }, { status: 200 });
 }
