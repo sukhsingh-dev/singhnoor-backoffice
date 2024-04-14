@@ -44,3 +44,15 @@ export async function DELETE(request: NextRequest) {
   await Attribute.deleteOne({_id: id});
   return NextResponse.json({ message: "Attribute Deleted" }, { status: 200 });
 }
+
+export async function PUT(request: NextRequest) {
+  const attribute = request.nextUrl.searchParams;
+  const id= attribute.get("id")
+  const { attributeName, attributeOptions } = await request.json();
+  await mongooseConnect();
+
+  console.log("View", id)
+
+  await Attribute.findByIdAndUpdate(id, { attributeName, attributeOptions});
+  return NextResponse.json({ message: "Attribute updated" }, { status: 200 });
+}

@@ -26,7 +26,7 @@ const AttributeForm = ({ title, formData }: FormType) => {
     const attributeId = formData?._id;
 
     if (attributeId) {
-      creation = await axios.put(`/api/attributes?id=${attributeId}`, { data })
+      creation = await axios.put(`/api/attributes?id=${attributeId}`, data)
     } else {
       creation = await axios.post('/api/attributes', data)
     }
