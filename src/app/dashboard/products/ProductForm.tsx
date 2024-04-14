@@ -10,7 +10,7 @@ import CreatableSelect from 'react-select/creatable';
 import { ReactSortable } from "react-sortablejs";
 import AsyncSelect from 'react-select/async';
 import { useRouter } from "next/navigation";
-import { colorOptions, genderOptions, sizeOptions, tagOption, tshirtMaterialOptions, workOptions, gatraMaterialOptions } from "@/utils/options";
+import { colorOptions, sizeOptions, tagOption, tshirtMaterialOptions, workOptions, gatraMaterialOptions } from "@/utils/options";
 import JoditEditor from 'jodit-react';
 
 interface FormType {
@@ -60,6 +60,20 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
         newList.push(option)
       })
       callback(newList)
+    })
+  }
+
+  const getGenders = async () => {
+    const genderOptions = await axios.get('/api/attributes?id=661bd7447776e03417fef9f1')
+    return genderOptions
+  }
+
+  const genderOptions = (searchValue: string, callback: (options: Array<object>) => void) => {
+    const attributeList = getGenders();
+    let newList: Array<object> = []
+
+    attributeList.then((result) => {
+      callback(result.data.attributeOptions)
     })
   }
 
@@ -197,11 +211,12 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             onChange={(e) => setTitle(e.target.value)}
           />
           <div className="sn-multi-select">
-            <Select
+            <AsyncSelect
               isMulti
+              defaultOptions
               onChange={handleGenderChange}
               defaultValue={formData?.productGender}
-              options={genderOptions}
+              loadOptions={genderOptions}
               instanceId="product-genders"
               placeholder="Select Gender"
             />

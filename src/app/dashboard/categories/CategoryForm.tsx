@@ -51,7 +51,6 @@ const CategoryForm = ({ title, formData }: FormType) => {
         newList.push(option)
       })
       callback(newList)
-      console.log("View the", newList)
     })
   }
 
