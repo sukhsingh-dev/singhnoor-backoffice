@@ -153,7 +153,8 @@
   .sn-form-main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: rem(48)
+    gap: rem(48);
+    grid-template-rows: max-content;
   }
 
   .sn-main-table {

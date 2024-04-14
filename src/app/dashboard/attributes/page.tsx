@@ -6,7 +6,7 @@ import DeleteAttribute from "./DeleteAttribute";
 const AttributePage = async () => {
   const res = await fetch(`${process.env.APP_URL}/api/attributes`, { cache: 'no-store' });
   const data = await res.json()
-  console.log("The", data)
+
   return (
     <main className="sn-main-table" >
       <div className="sn-main-table-header">

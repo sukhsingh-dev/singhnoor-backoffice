@@ -16,10 +16,19 @@ export const POST = async (req: Request) => {
   }
 }
 
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
+  const attribute = request.nextUrl.searchParams;
+  const id= attribute.get("id")
+  let data
+
   try {
 		await mongooseConnect();
-		const data = await Attribute.find();
+    if (id) {
+      data = await Attribute.findOne({ _id: id });
+
+    } else {
+      data = await Attribute.find();
+    }
 		return NextResponse.json(data);
 	} catch (error) {
 		console.log("Error in Attribute route handler", error);

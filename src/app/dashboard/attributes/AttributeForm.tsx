@@ -11,8 +11,8 @@ interface FormType {
 }
 
 const AttributeForm = ({ title, formData }: FormType) => {
-  const [attributeName, setAttributeName] = useState('');
-  const [attributeOptions, setAttributeOptions] = useState([]);
+  const [attributeName, setAttributeName] = useState(formData?.attributeName || '');
+  const [attributeOptions, setAttributeOptions] = useState(formData?.attributeOptions || []);
   const router = useRouter();
 
   const handleCreateAttribute = (selectedOptions: any) => {
@@ -56,7 +56,7 @@ const AttributeForm = ({ title, formData }: FormType) => {
             isMulti
             isClearable
             onChange={handleCreateAttribute}
-            // defaultValue={formData?.category.subCategory}
+            defaultValue={formData?.attributeOptions}
             instanceId="attribute-values"
             placeholder="Attribute values"
           />
