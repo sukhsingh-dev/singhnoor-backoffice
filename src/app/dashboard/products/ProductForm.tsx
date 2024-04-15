@@ -8,16 +8,15 @@ import Icon from "@/shared/components/Icon";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { ReactSortable } from "react-sortablejs";
-import AsyncSelect from 'react-select/async';
 import { useRouter } from "next/navigation";
-import { colorOptions, sizeOptions, tagOption, tshirtMaterialOptions, workOptions, gatraMaterialOptions } from "@/utils/options";
+import { tagOption } from "@/utils/options";
 import JoditEditor from 'jodit-react';
+import { ProductCategorySelect, ProductAttributeSelect } from "./asyncSelect";
 
 interface FormType {
   formTitle: string,
   formData?: any
 }
-
 
 const ProductForm = ({ formTitle, formData }: FormType) => {
   // States
@@ -40,89 +39,32 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
   const [productImagesArray, setProductImagesArray] = useState<Array<any>>(formData?.productImagesArray || [])
   const [productAttributes, setProductAttributes] = useState<Array<string>>(formData?.productAttributes || [])
   const [productTags, setProductTags] = useState(formData?.productTags || []);
-  const [productMaterialOptions, setProductMaterialOptions] = useState(tshirtMaterialOptions);
   const editor = useRef(null);
   const editorAdditional = useRef(null);
   const router = useRouter();
+
   // Methods
-  const getCategories = async () => {
-    const categoriesList = await axios.get('/api/categories')
-    return categoriesList
-  }
-
-  const categoriesOptions = (searchValue: string, callback: (options: Array<object>) => void) => {
-    const categoryList = getCategories();
-    let newList: Array<object> = []
-
-    categoryList.then((result) => {
-      result.data.map((item: any) => {
-        const option = { value: item._id, label: item.categoryName, attr: item.categoryAttributes, subCategory: item.subCategory }
-        newList.push(option)
-      })
-      callback(newList)
-    })
-  }
-
-  const getGenders = async () => {
-    const genderOptions = await axios.get('/api/attributes?id=661bd7447776e03417fef9f1')
-    return genderOptions
-  }
-
-  const genderOptions = (searchValue: string, callback: (options: Array<object>) => void) => {
-    const attributeList = getGenders();
-    let newList: Array<object> = []
-
-    attributeList.then((result) => {
-      callback(result.data.attributeOptions)
-    })
-  }
-
-  const updateImagesOrder = (images: Array<string>) => {
-    setProductImagesArray(images)
-  }
-
   const handleCategoryChange = (selectedOption: any) => {
     console.log(selectedOption)
     setProductCategory(selectedOption)
-    setProductAttributes(selectedOption.attr.map((item: any) => item.value))
+    setProductAttributes(selectedOption.attr.map((item: any) => item.label))
     if (selectedOption.subCategory.length) {
       setProductSubCategoryList(selectedOption.subCategory)
     } else {
       setProductSubCategoryList([])
     }
-    if (selectedOption.label === "Gatra") {
-      setProductMaterialOptions(gatraMaterialOptions)
-    } else if (selectedOption.label === "Clothing") {
-      setProductMaterialOptions(tshirtMaterialOptions)
-    }
   }
 
-  const handleSubCategoryChange = (selectedOption: any) => {
-    setProductSubCategory(selectedOption)
-  }
+  const updateImagesOrder = (images: Array<string>) => setProductImagesArray(images)
+  const roundToNearestTen = (number: number) => Math.round(number / 10) * 10;
 
-  const handleGenderChange = (selectedOptions: any) => {
-    setProductGender(selectedOptions)
-  }
-  const handleTagsChange = (selectedOptions: any) => {
-    setProductTags(selectedOptions)
-  }
-  const handleSizeChange = (selectedOptions: any) => {
-    setProductSize(selectedOptions)
-  }
-  const handleMaterialChange = (selectedOptions: any) => {
-    setProductMaterial(selectedOptions)
-  }
-  const handleWorkChange = (selectedOptions: any) => {
-    setProductWork(selectedOptions)
-  }
-  const handleColorsChange = (selectedOptions: any) => {
-    setProductColors(selectedOptions)
-  }
-
-  const roundToNearestTen = (number: number) => {
-    return Math.round(number / 10) * 10;
-  };
+  const handleSubCategoryChange = (selectedOption: any) => setProductSubCategory(selectedOption)
+  const handleGenderChange = (selectedOptions: any) => setProductGender(selectedOptions)
+  const handleTagsChange = (selectedOptions: any) => setProductTags(selectedOptions)
+  const handleSizeChange = (selectedOptions: any) => setProductSize(selectedOptions)
+  const handleMaterialChange = (selectedOptions: any) => setProductMaterial(selectedOptions)
+  const handleWorkChange = (selectedOptions: any) => setProductWork(selectedOptions)
+  const handleColorsChange = (selectedOptions: any) => setProductColors(selectedOptions)
 
   const handlePriceChange = (itemPrice: number) => {
     setProductPrice(itemPrice > 0 ? itemPrice : '')
@@ -167,10 +109,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
       alert("Product created")
       router.push('/dashboard/products/')
     }
-    // console.log(productCategory)
   }
-
-  //form edit defaults
 
   return (
     <>
@@ -180,16 +119,10 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
           className="sn-form"
           onSubmit={createProduct}
         >
-          <div className="sn-multi-select">
-            <AsyncSelect
-              onChange={handleCategoryChange}
-              defaultValue={formData?.productCategory}
-              loadOptions={categoriesOptions}
-              defaultOptions
-              instanceId="product-categories"
-              placeholder="Select Category"
-            />
-          </div>
+          <ProductCategorySelect
+            handleChange={handleCategoryChange}
+            defaultVal={formData?.productCategory}
+          />
           <div className="sn-multi-select">
             {
               productSubCategoryList.length || formData?.productSubCategory ?
@@ -199,8 +132,7 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
                   options={productSubCategoryList}
                   instanceId="product-sub-categories"
                   placeholder="Select Subcategory"
-                />
-                : ''
+                /> : ''
             }
           </div>
           <input
@@ -210,17 +142,12 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             value={productTitle}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <div className="sn-multi-select">
-            <AsyncSelect
-              isMulti
-              defaultOptions
-              onChange={handleGenderChange}
-              defaultValue={formData?.productGender}
-              loadOptions={genderOptions}
-              instanceId="product-genders"
-              placeholder="Select Gender"
-            />
-          </div>
+          <ProductAttributeSelect
+            handleChange={handleGenderChange}
+            defaultVal={formData?.productGender}
+            attributeId="661bd7447776e03417fef9f1"
+            attributeName="Gender"
+          />
           <input
             type="number"
             placeholder="Price"
@@ -257,61 +184,40 @@ const ProductForm = ({ formTitle, formData }: FormType) => {
             />
           </div>
           {
-            productAttributes.includes('size') || formData?.productSize.length ?
-              <div className="sn-multi-select">
-                <Select
-                  isMulti
-                  onChange={handleSizeChange}
-                  defaultValue={formData?.productSize}
-                  options={sizeOptions}
-                  instanceId="product-sizes"
-                  placeholder="Select Size"
-                />
-              </div>
-              : ''
+            productAttributes.includes('Size') || formData?.productSize.length ?
+              <ProductAttributeSelect
+                handleChange={handleSizeChange}
+                defaultVal={formData?.productSize}
+                attributeId="661bc7447776e03417fef9b9"
+                attributeName="Size"
+              /> : ''
           }
           {
-            productAttributes.includes('material') || formData?.productMaterial.length ?
-              <div className="sn-multi-select">
-                <Select
-                  isMulti
-                  onChange={handleMaterialChange}
-                  defaultValue={formData?.productMaterial}
-                  options={productMaterialOptions}
-                  instanceId="product-material"
-                  placeholder="Select Material"
-                />
-              </div>
-              : ''
+            productAttributes.includes('Material') || formData?.productMaterial.length ?
+              <ProductAttributeSelect
+                handleChange={handleMaterialChange}
+                defaultVal={formData?.productMaterial}
+                attributeId="661bd5207776e03417fef9ee"
+                attributeName="Material"
+              /> : ''
           }
           {
-            productAttributes.includes('work') || formData?.productWork.length ?
-              <div className="sn-multi-select">
-                <Select
-                  isMulti
-                  onChange={handleWorkChange}
-                  defaultValue={formData?.productWork}
-                  options={workOptions}
-                  instanceId="product-work"
-                  placeholder="Select Work"
-                />
-              </div>
-              : ''
+            productAttributes.includes('Work') || formData?.productWork.length ?
+              <ProductAttributeSelect
+                handleChange={handleWorkChange}
+                defaultVal={formData?.productWork}
+                attributeId="661bd4ee7776e03417fef9eb"
+                attributeName="Work"
+              /> : ''
           }
           {
-            productAttributes.includes('colors') || formData?.productColors.length ?
-              <div className="sn-multi-select">
-                <CreatableSelect
-                  isMulti
-                  isClearable
-                  onChange={handleColorsChange}
-                  defaultValue={formData?.productColors}
-                  options={colorOptions}
-                  instanceId="product-color"
-                  placeholder="Select Colors"
-                />
-              </div>
-              : ''
+            productAttributes.includes('Colors') || formData?.productColors.length ?
+              <ProductAttributeSelect
+                handleChange={handleColorsChange}
+                defaultVal={formData?.productColors}
+                attributeId="661bd4ca7776e03417fef9e8"
+                attributeName="Colors"
+              /> : ''
           }
           <div className="product-images" >
             <ReactSortable list={productImagesArray} setList={updateImagesOrder}>
