@@ -65,12 +65,12 @@ export const GET = async (request: NextRequest) => {
       const filterMap: any = {
         category: 'productCategory.label',
         subCategory: 'productSubCategory.label',
-        for: 'productGender.value',
+        Gender: 'productGender.label',
         tag: 'productTags.value',
-        size: 'productSize.value',
-        material: 'productMaterial',
-        color: 'productColors.value',
-        work: 'productWork.value'
+        Size: 'productSize.label',
+        Material: 'productMaterial.label',
+        Colors: 'productColors.label',
+        Work: 'productWork.label'
       };
 
       // Build the query based on available filter arrays
