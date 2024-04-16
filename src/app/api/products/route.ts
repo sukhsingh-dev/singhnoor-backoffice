@@ -70,7 +70,8 @@ export const GET = async (request: NextRequest) => {
         Size: 'productSize.label',
         Material: 'productMaterial.label',
         Colors: 'productColors.label',
-        Work: 'productWork.label'
+        Work: 'productWork.label',
+        set: '_id'
       };
 
       // Build the query based on available filter arrays
