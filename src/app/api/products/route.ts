@@ -88,7 +88,11 @@ export const GET = async (request: NextRequest) => {
       });
       data = await Product.find(query).sort({ updatedAt: -1 });
     }
-		return NextResponse.json(data, { status: 200 });
+		return NextResponse.json(data, { 
+      status: 200,
+      headers: {
+      'Access-Control-Allow-Origin': '*'
+    }, });
 	} catch (error) {
 		console.log("Error in Category route handler", error);
 		throw error;
