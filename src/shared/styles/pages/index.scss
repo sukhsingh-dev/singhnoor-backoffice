@@ -604,3 +604,29 @@
     padding-left: 40px;
   }
 }
+
+.btn-dropdown-items {
+    display: flex;
+    width: 100%;
+    color: #fff;
+    align-items: center;
+    padding: 16px;
+    font-size: 16px;
+    gap: 16px;
+
+    svg:last-child {
+      margin-left: auto;
+    }
+}
+
+.sn-table-body {
+  .image-mobile {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+
+  .image-desktop {
+    width: 200px
+  }
+}

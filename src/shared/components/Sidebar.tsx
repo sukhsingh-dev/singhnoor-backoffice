@@ -9,6 +9,7 @@ import { useState } from "react"
 const Sidebar = () => {
   const pathname = usePathname()
   const [categorySubmenus, setCategorySubmenus] = useState(false)
+  const [carouselSubmenus, setCarouselSubmenus] = useState(false)
 
   return (
     <aside className="sn-aside">
@@ -62,10 +63,22 @@ const Sidebar = () => {
           }
         </li>
         <li>
-          <Link href="/frontend">
+          <button
+            type="button"
+            className="btn-dropdown-items"
+            onClick={() => setCarouselSubmenus(prev => !prev)}
+          >
             <Icon name="frontend" />
             Frontend
-          </Link>
+            <Icon name="chevron-down" />
+          </button>
+          { carouselSubmenus &&
+            <ul className="link-submenus" >
+              <li>
+                <Link href="/dashboard/carousel" >Carousel</Link>
+              </li>
+            </ul>
+          }
         </li>
 
         <li>
